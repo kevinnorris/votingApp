@@ -5,19 +5,20 @@ import {Button} from 'react-bootstrap';
 // import {Link} from 'react-router';
 
 // our packages
-import {click} from '../../store/actions';
+import {updateClicks} from '../../store/actions';
 
 const mapDispatchToProps = dispatch => ({
-  addClick: payload => dispatch(click(payload)),
+  addClick: payload => dispatch(updateClicks(payload)),
 });
 
 const mapStateToProps = state => ({
   clicks: state.clicks.clicks,
+  isFetching: state.clicks.isFetching,
   id: state.auth.user._id,
   token: state.auth.token,
 });
 
-const Home = ({clicks, addClick, id, token}) => {
+const Home = ({clicks, isFetching, addClick, id, token}) => {
   const handelClick = () => {
     addClick({id, token});
   };
@@ -25,7 +26,7 @@ const Home = ({clicks, addClick, id, token}) => {
   return (
     <div>
       <h1>Hello World!</h1>
-      <h2>Clicks: {clicks}</h2>
+      <h2>Clicks: {isFetching ? '-' : clicks}</h2>
       <Button onClick={handelClick}>Click</Button>
     </div>
   );

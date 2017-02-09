@@ -1,20 +1,8 @@
 import * as ActionTypes from '../actionTypes';
 
-const storedUser = localStorage.getItem('full-test-user');
-// parse user from stored string
-let user;
-try {
-  user = JSON.parse(storedUser);
-} catch (e) {
-  console.error('Error parsing user data', e);
-}
+import {initialAuthState} from './initialStates';
 
-const initialState = {
-  token: localStorage.getItem('full-test-token'),
-  user,
-};
-
-export const auth = (state = initialState, action) => {
+export const auth = (state = initialAuthState, action) => {
   switch (action.type) {
     case ActionTypes.UPDATE_TOKEN:
       return {

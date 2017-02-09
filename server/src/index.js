@@ -30,7 +30,6 @@ app.use(express.static(path.resolve('../client/dist')));
   ----------------------
 */
 const tokenVerify = (req, res, next) => {
-  console.log('querys: ', req.query);
   // check header or url params or post params for token
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
   // console.log(req.headers);
