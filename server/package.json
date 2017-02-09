@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js --exec babel-node",
+    "build": "babel src -d dist",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.22.0",
+    "babel-core": "^6.22.0",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-es2015-node": "^6.1.1",
+    "babel-preset-stage-1": "^6.22.0",
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^6.9.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.14.0",
+    "jsonwebtoken": "^7.2.1",
+    "mongodb": "^2.2.21",
+    "mongoose": "^4.7.7",
+    "passport": "^0.3.2",
+    "passport-github2": "^0.1.10",
+    "popup-tools": "^1.0.1"
+  }
+}
