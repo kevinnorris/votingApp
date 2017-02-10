@@ -1,5 +1,7 @@
+/*
+// for debugging
 localStorage.removeItem('full-test-token');
-localStorage.removeItem('full-test-user');
+localStorage.removeItem('full-test-user');*/
 const storedUser = localStorage.getItem('full-test-user');
 // parse user from stored string
 let user;
