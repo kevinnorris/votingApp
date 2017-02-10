@@ -1,4 +1,5 @@
-// localStorage.removeItem('full-test-token');
+localStorage.removeItem('full-test-token');
+localStorage.removeItem('full-test-user');
 const storedUser = localStorage.getItem('full-test-user');
 // parse user from stored string
 let user;
@@ -15,6 +16,6 @@ export const initialAuthState = {
 
 export const initialClicksState = {
   isFetching: false,
-  clicks: user.nbrClicks.clicks,
+  clicks: storedUser ? user.nbrClicks.clicks : 0,
   error: null,
 };

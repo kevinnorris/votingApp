@@ -9,6 +9,8 @@ import {Button} from 'react-bootstrap';
 // our packages
 import {loginSuccess} from '../../store/actions';
 
+import './login.scss';
+
 const mapDispatchToProps = dispatch => ({
   loginSuccess: payload => dispatch(loginSuccess(payload)),
   changeRoute: url => dispatch(push(url)),
@@ -29,13 +31,8 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
-    // for debugging
-    /*localStorage.removeItem('full-test-token');
-    localStorage.removeItem('full-test-user');*/
-
     // If we already have a token, redirect to home page
     // happens before component mounts
-
     if (this.props.token) {
       this.props.changeRoute('/');
     }
@@ -60,8 +57,11 @@ class Login extends React.Component {
   render() {
     return (
       <div className="login">
-        <h1>Login Page</h1>
-        <Button onClick={this.handelGithubLogin}>Login With Github</Button>
+        <h1>FCC Dynamic Web Boilerplate</h1>
+        <Button bsStyle="primary" className="socialButton" onClick={this.handelGithubLogin}>
+          <img className="logo" src="github_32px.png" alt="github logo" />
+          <p>Login With Github</p>
+        </Button>
       </div>
     );
   }
