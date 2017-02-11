@@ -10,8 +10,6 @@ export const auth = (state = initialAuthState, action) => {
         token: action.payload,
       };
     case ActionTypes.LOGIN_SUCCESS:
-      localStorage.setItem('full-test-token', action.payload.token);
-      localStorage.setItem('full-test-user', JSON.stringify(action.payload.user));
       const {nbrClicks, ...rest} = action.payload.user; // remove nbrClicks from user
       return {
         token: action.payload.token,

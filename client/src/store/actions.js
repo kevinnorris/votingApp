@@ -2,17 +2,21 @@ import 'whatwg-fetch';
 
 // our packages
 import * as ActionTypes from './actionTypes';
-import {saveUser} from '../util/localSaveUser';
+import {saveUser, saveToken, updateUser} from '../util/localStorage';
 
 export const updateToken = payload => ({
   type: ActionTypes.UPDATE_TOKEN,
   payload,
 });
 
-export const loginSuccess = payload => ({
-  type: ActionTypes.LOGIN_SUCCESS,
-  payload,
-});
+export const loginSuccess = (payload) => {
+  saveUser(payload.user);
+  saveToken(payload.token);
+  return ({
+    type: ActionTypes.LOGIN_SUCCESS,
+    payload,
+  });
+};
 
 const requestClickUpdate = payload => ({
   type: ActionTypes.REQUEST_UPDATE_CLICK,
@@ -38,7 +42,7 @@ export const updateClicks = (payload) => {
       .then((json) => {
         if (json.success) {
           dispatch(receiveClickUpdate());
-          saveUser();
+          updateUser();
         } else {
           dispatch(errorClickUpdate({error: json.message}));
         }
@@ -62,7 +66,7 @@ export const resetClicks = (payload) => {
       .then((json) => {
         if (json.success) {
           dispatch(receiveClickReste());
-          saveUser();
+          updateUser();
         } else {
           dispatch(errorClickUpdate({error: json.message}));
         }
