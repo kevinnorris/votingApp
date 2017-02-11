@@ -1,0 +1,36 @@
+.github-profile {
+  width: 350px;
+  height: 200px;
+  border-radius: 3px;
+  margin: 86px auto 0 auto;
+  background-color: #EEE;
+  text-align: center;
+  color: #000;
+
+  p:first-child {
+  padding-top: 16px;
+  }
+  p:nth-child(5) {
+  margin-bottom: 16px
+  }
+  p {
+  margin: 0 0 0 16px;
+  text-align: left;
+  }
+
+  img {
+  padding-top: 16px;
+  margin-bottom: 16px;
+  }
+}
+
+.menu{
+  padding: 6px;
+  margin: 0;
+}
+
+#menu-divide {
+  color: #FFFFFF;
+  display: inline;
+  margin: 0;
+}
