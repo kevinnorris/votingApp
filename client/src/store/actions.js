@@ -2,12 +2,7 @@ import 'whatwg-fetch';
 
 // our packages
 import * as ActionTypes from './actionTypes';
-import {saveUser, saveToken, updateUser} from '../util/localStorage';
-
-export const updateToken = payload => ({
-  type: ActionTypes.UPDATE_TOKEN,
-  payload,
-});
+import {saveUser, saveToken, updateUser, deleteInfo} from '../util/localStorage';
 
 export const loginSuccess = (payload) => {
   saveUser(payload.user);
@@ -74,4 +69,9 @@ export const resetClicks = (payload) => {
         dispatch(errorClickUpdate({error: err})),
       );
   };
+};
+
+export const logoutUser = () => {
+  deleteInfo();
+  return {type: ActionTypes.LOGOUT};
 };

@@ -32,6 +32,8 @@ export const clicks = (state = initialClicksState, action) => {
         isFetching: false,
         error: action.payload.error,
       };
+    case ActionTypes.LOGOUT:
+      return initialClicksState;
     default:
       return state;
   }

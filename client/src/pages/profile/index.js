@@ -5,6 +5,11 @@ import {Link} from 'react-router';
 
 // style
 import './profile.scss';
+import {logoutUser} from '../../store/actions';
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(logoutUser()),
+});
 
 const mapStateToProps = state => ({
   id: state.auth.user.github.id,
@@ -13,7 +18,7 @@ const mapStateToProps = state => ({
   repositories: state.auth.user.github.publicRepos,
 });
 
-const Profile = ({id, username, displayName, repositories}) => (
+const Profile = ({id, username, displayName, repositories, logout}) => (
   <div className="github-profile">
     <img src="gh-mark-32px.png" alt="github logo" />
     <p>ID: {id}</p>
@@ -22,8 +27,8 @@ const Profile = ({id, username, displayName, repositories}) => (
     <p>Repositories: {repositories}</p>
     <Link className="menu" to="/">Home</Link>
     <p id="menu-divide">|</p>
-    <Link className="menu" to="/logout">Logout</Link>
+    <Link className="menu" to="/login" onClick={logout}>Logout</Link>
   </div>
 );
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

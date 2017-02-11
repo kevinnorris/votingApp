@@ -5,7 +5,7 @@ import {Button} from 'react-bootstrap';
 import {Link} from 'react-router';
 
 // our packages
-import {updateClicks, resetClicks} from '../../store/actions';
+import {updateClicks, resetClicks, logoutUser} from '../../store/actions';
 
 // style
 import './home.scss';
@@ -13,6 +13,7 @@ import './home.scss';
 const mapDispatchToProps = dispatch => ({
   addClick: payload => dispatch(updateClicks(payload)),
   reset: payload => dispatch(resetClicks(payload)),
+  logout: () => dispatch(logoutUser()),
 });
 
 const mapStateToProps = state => ({
@@ -23,7 +24,7 @@ const mapStateToProps = state => ({
   name: state.auth.user.github.displayName,
 });
 
-const Home = ({clicks, isFetching, addClick, reset, id, token, name}) => {
+const Home = ({clicks, isFetching, addClick, reset, id, token, name, logout}) => {
   const handelClick = () => {
     addClick({id, token});
   };
@@ -38,7 +39,7 @@ const Home = ({clicks, isFetching, addClick, reset, id, token, name}) => {
       <div className="link-container">
         <Link to="/profile">Profile</Link>
         <p>|</p>
-        <Link to="/Logout">Logout</Link>
+        <Link to="/login" onClick={logout}>Logout</Link>
       </div>
       <h1>Home Page</h1>
       <h4>You have clicked the button {isFetching ? '-' : clicks} time{clicks === 1 ? '' : 's'}.</h4>

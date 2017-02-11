@@ -29,7 +29,7 @@ ReactDOM.render((
       <Route path="/" component={App}>
         <IndexRoute component={Home} onEnter={requireAuth} />
         <Route path="login" component={Login} />
-        <Route path="profile" component={Profile} />
+        <Route path="profile" component={Profile} onEnter={requireAuth} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>

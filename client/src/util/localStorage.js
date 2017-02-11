@@ -36,3 +36,8 @@ export const getUser = () => {
 export const getToken = () => (
   localStorage.getItem('full-test-token')
   );
+
+export const deleteInfo = () => {
+  localStorage.removeItem('full-test-user');
+  localStorage.removeItem('full-test-token');
+};
