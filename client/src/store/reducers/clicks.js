@@ -20,6 +20,12 @@ export const clicks = (state = initialClicksState, action) => {
         clicks: state.clicks + 1,
         error: null,
       };
+    case ActionTypes.RECIEVED_RESET_CLICK:
+      return {
+        isFetching: false,
+        clicks: 0,
+        error: null,
+      };
     case ActionTypes.ERROR_UPDATE_CLICK:
       return {
         ...state,

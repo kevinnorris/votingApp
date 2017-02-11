@@ -58,7 +58,7 @@ class Login extends React.Component {
     return (
       <div className="login">
         <h1>FCC Dynamic Web Boilerplate</h1>
-        <Button bsStyle="primary" className="socialButton" onClick={this.handelGithubLogin}>
+        <Button bsStyle="info" className="socialButton" onClick={this.handelGithubLogin}>
           <img className="logo" src="github_32px.png" alt="github logo" />
           <p>Login With Github</p>
         </Button>

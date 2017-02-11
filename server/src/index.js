@@ -32,7 +32,7 @@ app.use(express.static(path.resolve('../client/dist')));
 const tokenVerify = (req, res, next) => {
   // check header or url params or post params for token
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
-  // console.log(req.headers);
+  // console.log('token:', token, 'id: ', req.query.id);
 
   // decode token
   if (token) {
@@ -101,10 +101,8 @@ apiRoutes.get('/addClick', tokenVerify, (req, res) => {
     {$inc: {'nbrClicks.clicks': 1}},
     (err) => {
       if (err) {
-        console.log('error in updating: ', err);
         return res.json({success: false, message: err.message});
       }
-      console.log('click update successful');
       return res.json({success: true});
     },
   );
@@ -117,6 +115,19 @@ apiRoutes.get('/getClicks', tokenVerify, (req, res) => {
     }
     return res.json({success: true, clicks: user.nbrClicks.clicks});
   });
+});
+
+apiRoutes.get('/resetClicks', tokenVerify, (req, res) => {
+  User.update(
+    {_id: req.query.id},
+    {'nbrClicks.clicks': 0},
+    (err) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true});
+    },
+  );
 });
 
 app.use('/api', apiRoutes);
