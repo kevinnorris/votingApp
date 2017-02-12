@@ -2,9 +2,9 @@
 
 This project provides a simple setup for building full stack applications. 
 
-The backend is an API server built with express that allows the client to access data and authenticate through api calls. Passport is used for authentication with third parties and json web tokens for client to server authentication. mongoose is used to interact with a mongodb database. 
+The backend is an API server built with [Express](http://expressjs.com/) that allows the client to access data and authenticate through api calls. [Passport](http://passportjs.org/) is used for authentication with third parties and [JSON Web Tokens](https://jwt.io/) for client to server authentication. [mongoose](http://mongoosejs.com/) is used to interact with a [MongoDB](https://www.mongodb.com/) database. 
 
-The frontend is a single page application built using react and redux.
+The frontend is a single page application built using [ReactJS](https://facebook.github.io/react/) and [Redux](http://redux.js.org/).
 
 ### Motivation
 
