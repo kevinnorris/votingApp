@@ -36,7 +36,6 @@ module.exports = (passport) => {
         }
         // If user exists in our db return user
         if (user) {
-          console.log('user found in db');
           return done(null, user);
         }
 
@@ -53,7 +52,6 @@ module.exports = (passport) => {
           if (e) {
             throw e;
           }
-          console.log('new user created');
           return done(null, newUser);
         });
       });
