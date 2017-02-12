@@ -55,7 +55,7 @@ module.exports = {
     ],
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'public'),
     filename: 'app.min.js',
   },
   plugins: debug ? [new ExtractTextPlugin('[name].css')] : [
@@ -66,6 +66,6 @@ module.exports = {
   ],
   devServer: {
     historyApiFallback: true,
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'public'),
   },
 };

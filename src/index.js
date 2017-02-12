@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-w
 app.use(passport.initialize());
 
 // set static files path
-app.use(express.static(path.resolve('./client/dist')));
+app.use(express.static(path.resolve('./client/public')));
 
 /*
   Token verification middleware
@@ -137,7 +137,7 @@ app.use('/api', apiRoutes);
   ------------------------
 */
 app.get('/*', (req, res) => {
-  res.status(200).sendFile(path.resolve('./client/dist/index.html'));
+  res.status(200).sendFile(path.resolve('./client/public/index.html'));
 });
 
 // Start express server
