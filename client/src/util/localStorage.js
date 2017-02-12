@@ -1,7 +1,6 @@
 import store from '../store';
 
 export const saveUser = (user) => {
-  console.log('saving user, user:', user);
   localStorage.setItem('full-test-user', JSON.stringify(user));
 };
 
