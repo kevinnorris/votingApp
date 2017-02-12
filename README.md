@@ -1,6 +1,6 @@
 # Boilerplate for freeCodeCamp’s dynamic web application projects
 
-This project provides a simple setup for building full stack applications. 
+This project provides a simple setup for building full stack applications in ES6. 
 
 The backend is an API server built with [Express](http://expressjs.com/) that allows the client to access data and authenticate through api calls. [Passport](http://passportjs.org/) is used for authentication with third parties and [JSON Web Tokens](https://jwt.io/) for client to server authentication. [mongoose](http://mongoosejs.com/) is used to interact with a [MongoDB](https://www.mongodb.com/) database. 
 
@@ -29,7 +29,7 @@ Create a github app for authentication.
 
 GitHub will create an app and present you with a Client ID and a Client Secret which you add to to the .env file as the ```GITHUB_KEY``` and ```GITHUB_SECRET``` respectively. 
 
-For the ```MONGO_URI``` install mongodb locally  and add the local URI or use something like mLab.com
+For the ```MONGO_URI``` install mongodb locally and add the local URI or use something like [mLab](https://mlab.com/)
 
 #### Installing Packages
 
