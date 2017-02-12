@@ -54,3 +54,7 @@ When changes are made to the client webpack will re-transpile the files and when
 
 * Open a terminal, navigate to the client, set ```NODE_ENV``` to ```'production'``` and run webpack
 * navigate to the main directory, run ```npm run build``` then ```npm start```
+
+## License
+
+[MIT](https://opensource.org/licenses/MIT)
