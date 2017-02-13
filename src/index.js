@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import popupTools from 'popup-tools';
 
 import User from './models/users';
+import Poll from './models/polls';
 
 const app = express();
 require('dotenv').load();
@@ -84,16 +85,6 @@ app.route('/auth/github/callback')
 */
 const apiRoutes = express.Router();
 
-apiRoutes.get('/users', tokenVerify, (req, res) => {
-  User.find({}, (err, users) => {
-    if (err) {
-      console.log('error with User.find');
-      throw err;
-    }
-    res.json({success: true, data: users});
-  });
-});
-
 apiRoutes.get('/addClick', tokenVerify, (req, res) => {
   // Update the number of clicks by 1 for the given user
   User.update(
@@ -128,6 +119,63 @@ apiRoutes.get('/resetClicks', tokenVerify, (req, res) => {
       return res.json({success: true});
     },
   );
+});
+
+// Test this
+apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
+  const newPoll = new Poll();
+  newPoll.question = req.body.question;
+  newPoll.votes = [];
+  newPoll.answers = req.body.answers.map(answer => ({answer, voteCount: 0}));
+  newPoll.totalVotes = 0;
+  newPoll.author = req.body.author;
+  newPoll.date = new Date();
+
+  newPoll.save((e) => {
+    if (e) {
+      return res.json({success: false, error: e});
+    }
+    return res.json({success: true});
+  });
+});
+
+// Test this
+apiRoutes.get('/deletePoll', tokenVerify, (req, res) => {
+  Poll.find({_id: req.body.id}).remove((err) => {
+    if (err) {
+      return res.json({success: false, message: err.message});
+    }
+    return res.json({success: true});
+  });
+});
+
+// Test this
+apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
+  Poll.update(
+    {_id: req.body.id},
+    {$push: {
+      answers: {
+        answer: req.body.answer,
+        voteCount: 0,
+      },
+    }},
+    (err) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true});
+    },
+  );
+});
+
+// Test this
+apiRoutes.get('/getpolls', tokenVerify, (req, res) => {
+  Poll.find({}, (err, polls) => {
+    if (err) {
+      return res.json({success: false, message: err.message});
+    }
+    return res.json({success: true, polls});
+  });
 });
 
 app.use('/api', apiRoutes);
