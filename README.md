@@ -22,6 +22,7 @@ GITHUB_SECRET=
 MONGO_URI=
 PORT=8080
 APP_URL=http://localhost:8080/
+JWT_SECRET=
 ```
 Create a github app for authentication. 
 * For the homepage URL paste ```http://localhost:8080/```
@@ -30,6 +31,10 @@ Create a github app for authentication.
 GitHub will create an app and present you with a Client ID and a Client Secret which you add to to the .env file as the ```GITHUB_KEY``` and ```GITHUB_SECRET``` respectively. 
 
 For the ```MONGO_URI``` install mongodb locally and add the local URI or use something like [mLab](https://mlab.com/)
+
+Add a secret string to the ```JWT_SECRET```
+
+Change the ```userStorageString``` and ```tokenStorageString``` variables in ```client/util/localStorage.js``` to a custom value. Otherwise any other versions of this project will overwrite your local storage saves.
 
 #### Installing Packages
 
