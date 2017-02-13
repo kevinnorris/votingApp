@@ -1,20 +1,23 @@
 import store from '../store';
 
+const userStorageString = 'FCC-Dynamic-Web-Boilerplate-user';
+const tokenStorageString = 'FCC-Dynamic-Web-Boilerplate-token';
+
 export const saveUser = (user) => {
-  localStorage.setItem('full-test-user', JSON.stringify(user));
+  localStorage.setItem(userStorageString, JSON.stringify(user));
 };
 
 export const saveToken = (token) => {
-  localStorage.setItem('full-test-token', token);
+  localStorage.setItem(tokenStorageString, token);
 };
 
 export const updateUser = () => {
-  const storedUser = localStorage.getItem('full-test-user');
+  const storedUser = localStorage.getItem(userStorageString);
   // parse user from stored string
   if (storedUser) {
     const user = JSON.parse(storedUser);
     if (user) {
-      localStorage.setItem('full-test-user', JSON.stringify({
+      localStorage.setItem(userStorageString, JSON.stringify({
         ...user,
         nbrClicks: {clicks: store.getState().clicks.clicks},
       }));
@@ -25,7 +28,7 @@ export const updateUser = () => {
 };
 
 export const getUser = () => {
-  const storedUser = localStorage.getItem('full-test-user');
+  const storedUser = localStorage.getItem(userStorageString);
   if (storedUser) {
     return JSON.parse(storedUser);
   }
@@ -33,10 +36,10 @@ export const getUser = () => {
 };
 
 export const getToken = () => (
-  localStorage.getItem('full-test-token')
+  localStorage.getItem(tokenStorageString)
   );
 
 export const deleteInfo = () => {
-  localStorage.removeItem('full-test-user');
-  localStorage.removeItem('full-test-token');
+  localStorage.removeItem(userStorageString);
+  localStorage.removeItem(tokenStorageString);
 };
