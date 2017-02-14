@@ -6,11 +6,7 @@ const Poll = new mongoose.Schema({
     user: String,
     answer: String,
   }],
-  answers: [{
-    answer: String,
-    voteCount: Number,
-  }],
-  totalVotes: Number,
+  answers: Array,
   author: String,
   date: Date,
 });

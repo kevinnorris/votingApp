@@ -126,8 +126,7 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   const newPoll = new Poll();
   newPoll.question = req.body.question;
   newPoll.votes = [];
-  newPoll.answers = req.body.answers.map(answer => ({answer, voteCount: 0}));
-  newPoll.totalVotes = 0;
+  newPoll.answers = req.body.answers.split(',');
   newPoll.author = req.body.author;
   newPoll.date = new Date();
 
@@ -140,24 +139,28 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
 });
 
 // Test this
-apiRoutes.get('/deletePoll', tokenVerify, (req, res) => {
-  Poll.find({_id: req.body.id}).remove((err) => {
+// Poll is is undefined??
+apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
+  console.log(req.body.pollId);
+  Poll.findById(req.body.pollId, (e, p) => {
+    if (e) console.log(e);
+    console.log(p);
+  });
+
+  Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
     if (err) {
       return res.json({success: false, message: err.message});
     }
-    return res.json({success: true});
+    return res.json({success: true, poll});
   });
 });
 
 // Test this
 apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
   Poll.update(
-    {_id: req.body.id},
+    {_id: req.body.pollId},
     {$push: {
-      answers: {
-        answer: req.body.answer,
-        voteCount: 0,
-      },
+      answers: req.body.answer,
     }},
     (err) => {
       if (err) {
@@ -169,13 +172,35 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
 });
 
 // Test this
-apiRoutes.get('/getpolls', tokenVerify, (req, res) => {
+apiRoutes.get('/getPolls', tokenVerify, (req, res) => {
   Poll.find({}, (err, polls) => {
     if (err) {
       return res.json({success: false, message: err.message});
     }
     return res.json({success: true, polls});
   });
+});
+
+// Test this
+// Should refactor so votes are only in one place
+apiRoutes.post('/vote', tokenVerify, (req, res) => {
+  Poll.update(
+    {_id: req.body.pollId},
+    {
+      $push: {
+        votes: {
+          user: req.body.userId,
+          answer: req.body.answer,
+        },
+      },
+    },
+    (err) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true});
+    },
+  );
 });
 
 app.use('/api', apiRoutes);
