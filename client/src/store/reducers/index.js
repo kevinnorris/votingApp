@@ -1,7 +1,7 @@
 import {auth} from './auth';
-import {clicks} from './clicks';
+import {polls} from './polls';
 
 export default {
   auth,
-  clicks,
+  polls,
 };

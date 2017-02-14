@@ -1,54 +1,61 @@
 // npm packages
 import React from 'react';
 import {connect} from 'react-redux';
-import {Button} from 'react-bootstrap';
 import {Link} from 'react-router';
 
 // our packages
-import {updateClicks, resetClicks, logoutUser} from '../../store/actions';
+import {logoutUser, getPolls} from '../../store/actions';
+import pollOverview from '../../components/pollOverview';
 
 // style
 import './home.scss';
 
 const mapDispatchToProps = dispatch => ({
-  addClick: payload => dispatch(updateClicks(payload)),
-  reset: payload => dispatch(resetClicks(payload)),
   logout: () => dispatch(logoutUser()),
+  getpolls: payload => dispatch(getPolls(payload)),
 });
 
 const mapStateToProps = state => ({
-  clicks: state.clicks.clicks,
-  isFetching: state.clicks.isFetching,
+  isFetching: state.polls.isFetching,
+  polls: state.polls.polls,
   id: state.auth.user._id,
   token: state.auth.token,
   name: state.auth.user.github.displayName,
 });
 
-const Home = ({clicks, isFetching, addClick, reset, id, token, name, logout}) => {
-  const handelClick = () => {
-    addClick({id, token});
-  };
+class Home extends React.Component {
+  static propTypes = {
+    isFetching: React.PropTypes.bool.isRequired,
+    polls: React.PropTypes.array.isRequired,
+    id: React.PropTypes.string.isRequired,
+    token: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    logout: React.PropTypes.func.isRequired,
+    getpolls: React.PropTypes.func.isRequired,
+  }
 
-  const handelReset = () => {
-    reset({id, token});
-  };
+  componentWillMount() {
+    this.props.getpolls({id: this.props.id, token: this.props.token});
+  }
 
-  return (
-    <div className="home">
-      <p className="welcome">Welcome, {name}!</p>
-      <div className="link-container">
-        <Link to="/profile">Profile</Link>
-        <p>|</p>
-        <Link to="/login" onClick={logout}>Logout</Link>
+  render() {
+    return (
+      <div className="home">
+        <p className="welcome">Welcome, {this.props.name}!</p>
+        <div className="link-container">
+          <Link to="/profile">Profile</Link>
+          <p>|</p>
+          <Link to="/login" onClick={this.props.logout}>Logout</Link>
+        </div>
+        <h1>Home Page</h1>
+        <div className="polls">
+          {this.props.isFetching ? 'Loading Polls' : this.props.polls.map(poll =>
+            pollOverview(poll._id, poll.question, poll.votes.length, poll.author, poll.date.toString()))
+          }
+        </div>
       </div>
-      <h1>Home Page</h1>
-      <h4>You have clicked the button {isFetching ? '-' : clicks} time{clicks === 1 ? '' : 's'}.</h4>
-      <div className="btn-container">
-        <Button bsStyle="info" onClick={handelClick}>Click Me!</Button>
-        <Button onClick={handelReset}>Reset</Button>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

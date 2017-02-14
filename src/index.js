@@ -13,8 +13,9 @@ const app = express();
 require('dotenv').load();
 require('./config/passport')(passport);
 
-mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGO_URI);
+
 
 // add body parsing
 app.use(bodyParser.json()); // for parsing application/json
@@ -85,6 +86,7 @@ app.route('/auth/github/callback')
 */
 const apiRoutes = express.Router();
 
+// For debugging
 apiRoutes.get('/getUsers', tokenVerify, (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
@@ -94,7 +96,6 @@ apiRoutes.get('/getUsers', tokenVerify, (req, res) => {
   });
 });
 
-// Test this
 apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   const newPoll = new Poll();
   newPoll.question = req.body.question;
@@ -111,7 +112,6 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   });
 });
 
-// Test this
 apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
   Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
     if (err) {
@@ -121,7 +121,6 @@ apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
   });
 });
 
-// Test this
 apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
   Poll.update(
     {_id: req.body.pollId},
@@ -137,7 +136,6 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
   );
 });
 
-// Test this
 apiRoutes.get('/getPolls', tokenVerify, (req, res) => {
   Poll.find({}, (err, polls) => {
     if (err) {
@@ -147,7 +145,6 @@ apiRoutes.get('/getPolls', tokenVerify, (req, res) => {
   });
 });
 
-// Test this
 apiRoutes.post('/vote', tokenVerify, (req, res) => {
   Poll.update(
     {_id: req.body.pollId},

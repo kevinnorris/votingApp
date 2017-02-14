@@ -10,8 +10,8 @@ export const initialAuthState = {
   user,
 };
 
-export const initialClicksState = {
+export const initialPollsState = {
   isFetching: false,
-  clicks: user ? user.nbrClicks.clicks : 0,
+  polls: [],
   error: null,
 };
