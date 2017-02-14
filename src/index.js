@@ -85,40 +85,13 @@ app.route('/auth/github/callback')
 */
 const apiRoutes = express.Router();
 
-apiRoutes.get('/addClick', tokenVerify, (req, res) => {
-  // Update the number of clicks by 1 for the given user
-  User.update(
-    {_id: req.query.id},
-    {$inc: {'nbrClicks.clicks': 1}},
-    (err) => {
-      if (err) {
-        return res.json({success: false, message: err.message});
-      }
-      return res.json({success: true});
-    },
-  );
-});
-
-apiRoutes.get('/getClicks', tokenVerify, (req, res) => {
-  User.findById(req.query.id, (err, user) => {
+apiRoutes.get('/getUsers', tokenVerify, (req, res) => {
+  User.find({}, (err, users) => {
     if (err) {
       return res.json({success: false, message: err.message});
     }
-    return res.json({success: true, clicks: user.nbrClicks.clicks});
+    return res.json({success: true, users});
   });
-});
-
-apiRoutes.get('/resetClicks', tokenVerify, (req, res) => {
-  User.update(
-    {_id: req.query.id},
-    {'nbrClicks.clicks': 0},
-    (err) => {
-      if (err) {
-        return res.json({success: false, message: err.message});
-      }
-      return res.json({success: true});
-    },
-  );
 });
 
 // Test this
@@ -139,14 +112,7 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
 });
 
 // Test this
-// Poll is is undefined??
 apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
-  console.log(req.body.pollId);
-  Poll.findById(req.body.pollId, (e, p) => {
-    if (e) console.log(e);
-    console.log(p);
-  });
-
   Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
     if (err) {
       return res.json({success: false, message: err.message});
@@ -182,14 +148,13 @@ apiRoutes.get('/getPolls', tokenVerify, (req, res) => {
 });
 
 // Test this
-// Should refactor so votes are only in one place
 apiRoutes.post('/vote', tokenVerify, (req, res) => {
   Poll.update(
     {_id: req.body.pollId},
     {
       $push: {
         votes: {
-          user: req.body.userId,
+          _id: req.body.userId,
           answer: req.body.answer,
         },
       },
