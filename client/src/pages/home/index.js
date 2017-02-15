@@ -2,6 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
+import {Grid, ListGroup} from 'react-bootstrap';
 
 // our packages
 import {logoutUser, getPolls} from '../../store/actions';
@@ -48,11 +49,20 @@ class Home extends React.Component {
           <Link to="/login" onClick={this.props.logout}>Logout</Link>
         </div>
         <h1>Home Page</h1>
-        <div className="polls">
-          {this.props.isFetching ? 'Loading Polls' : this.props.polls.map(poll =>
-            pollOverview(poll._id, poll.question, poll.votes.length, poll.author, poll.date.toString()))
-          }
-        </div>
+        <Grid>
+          <ListGroup>
+            {pollOverview('pollOverviewTitle', 'Question', 'Votes', 'Author', 'Date', true)}
+            {this.props.polls.map(poll =>
+              pollOverview(
+                poll._id,
+                poll.question,
+                poll.votes.length,
+                poll.author,
+                new Date(poll.date).toLocaleString(),
+                false))
+            }
+          </ListGroup>
+        </Grid>
       </div>
     );
   }
