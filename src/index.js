@@ -136,12 +136,21 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
   );
 });
 
-apiRoutes.get('/getPolls', tokenVerify, (req, res) => {
+apiRoutes.get('/getPolls', (req, res) => {
   Poll.find({}, (err, polls) => {
     if (err) {
       return res.json({success: false, message: err.message});
     }
     return res.json({success: true, polls});
+  });
+});
+
+apiRoutes.get('/getPoll', (req, res) => {
+  Poll.findById(req.query.id, (err, poll) => {
+    if (err) {
+      return res.json({success: false, message: err.message});
+    }
+    return res.json({success: true, poll});
   });
 });
 
@@ -171,7 +180,7 @@ app.use('/api', apiRoutes);
   Generic routes
   ------------------------
 */
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.status(200).sendFile(path.resolve('./client/public/index.html'));
 });
 
