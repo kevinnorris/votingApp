@@ -13,14 +13,12 @@ import './home.scss';
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logoutUser()),
-  getpolls: payload => dispatch(getPolls(payload)),
+  getpolls: () => dispatch(getPolls()),
 });
 
 const mapStateToProps = state => ({
   isFetching: state.polls.isFetching,
   polls: state.polls.polls,
-  id: state.auth.user._id,
-  token: state.auth.token,
   name: state.auth.user.github.displayName,
 });
 
@@ -28,15 +26,13 @@ class Home extends React.Component {
   static propTypes = {
     isFetching: React.PropTypes.bool.isRequired,
     polls: React.PropTypes.array.isRequired,
-    id: React.PropTypes.string.isRequired,
-    token: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     logout: React.PropTypes.func.isRequired,
     getpolls: React.PropTypes.func.isRequired,
   }
 
   componentWillMount() {
-    this.props.getpolls({id: this.props.id, token: this.props.token});
+    this.props.getpolls();
   }
 
   render() {

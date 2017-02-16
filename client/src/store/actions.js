@@ -21,6 +21,12 @@ export const logoutUser = () => {
   return {type: ActionTypes.LOGOUT};
 };
 
+// Ui actions
+export const setActivePoll = payload => ({
+  type: ActionTypes.SET_ACTIVE_POLL,
+  payload,
+});
+
 
 // Poll actions
 const requestPolls = payload => ({
@@ -38,11 +44,11 @@ const errorPolls = payload => ({
   payload,
 });
 
-export const getPolls = (payload) => {
-  return (dispatch) => {
+export const getPolls = () => (
+  (dispatch) => {
     dispatch(requestPolls());
 
-    return fetch(`${apiUrl}getPolls?id=${payload.id}&token=${payload.token}`)
+    return fetch(`${apiUrl}getPolls`)
       .then(response => response.json())
       .then((json) => {
         if (json.success) {
@@ -51,10 +57,43 @@ export const getPolls = (payload) => {
           dispatch(errorPolls({error: json.error, location: 'json'}));
         }
       }).catch(err =>
-        dispatch(errorPolls({error: err, location: 'fetch'})),
+        dispatch(errorPolls({error: err.message, location: 'fetch'})),
       );
-  };
-};
+  }
+);
+
+const requestPoll = payload => ({
+  type: ActionTypes.REQUEST_POLL,
+  payload,
+});
+
+const receivePoll = payload => ({
+  type: ActionTypes.RECIEVED_POLLS,
+  payload,
+});
+
+const errorPoll = payload => ({
+  type: ActionTypes.ERROR_POLLS,
+  payload,
+});
+
+export const getPoll = payload => (
+  (dispatch) => {
+    dispatch(requestPoll());
+
+    return fetch(`${apiUrl}getPoll?id=${payload.pollId}`)
+      .then(response => response.json())
+      .then((json) => {
+        if (json.success) {
+          dispatch(setActivePoll({poll: json.poll, userId: payload.userId}));
+        } else {
+          dispatch(errorPoll({error: json.error, location: 'json'}));
+        }
+      }).catch((err) => {
+        dispatch(errorPoll({error: err.message, location: 'fetch'}));
+      });
+  }
+);
 
 
 // Click actions
@@ -72,8 +111,8 @@ const errorClickUpdate = payload => ({
   payload,
 });
 
-export const updateClicks = (payload) => {
-  return (dispatch) => {
+export const updateClicks = payload => (
+  (dispatch) => {
     // state updated to inform that the API call is starting
     dispatch(requestClickUpdate());
 
@@ -89,8 +128,8 @@ export const updateClicks = (payload) => {
       }).catch(err =>
         dispatch(errorClickUpdate({error: err})),
       );
-  };
-};
+  }
+);
 
 const receiveClickReste = () => ({
   type: ActionTypes.RECIEVED_RESET_CLICK,
@@ -115,5 +154,3 @@ export const resetClicks = (payload) => {
       );
   };
 };
-
-

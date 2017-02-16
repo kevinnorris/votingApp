@@ -1,6 +1,6 @@
 import * as ActionTypes from '../actionTypes';
 
-import {initialAuthState} from './initialStates';
+import {initialAuthState} from '../util/initialStates';
 
 export const auth = (state = initialAuthState, action) => {
   switch (action.type) {

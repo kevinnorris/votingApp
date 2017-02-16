@@ -15,3 +15,8 @@ export const initialPollsState = {
   polls: [],
   error: null,
 };
+
+export const initialUIState = {
+  orderByVotes: false,
+  activePoll: null,
+};

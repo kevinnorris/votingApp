@@ -1,6 +1,6 @@
 import * as ActionTypes from '../actionTypes';
 
-import {initialPollsState} from './initialStates';
+import {initialPollsState} from '../util/initialStates';
 
 export const polls = (state = initialPollsState, action) => {
   switch (action.type) {
