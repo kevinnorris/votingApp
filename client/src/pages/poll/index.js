@@ -39,10 +39,12 @@ class Poll extends React.Component {
   }
 
   render() {
+    // parse this.props.activePoll.votes into data usable by d3 chart
     return (
       <div>
-        <h1>Poll Page!</h1>
-        <h3>Page Id: {this.props.params.pollId}</h3>
+        <h1>{this.props.activePoll.question}</h1>
+        <p>{this.props.activePoll.author}</p>
+        {this.props.activePoll.hasVoted ? 'Show list of answers' : 'Show D3 chart'}
       </div>
     );
   }

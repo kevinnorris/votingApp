@@ -18,5 +18,13 @@ export const initialPollsState = {
 
 export const initialUIState = {
   orderByVotes: false,
-  activePoll: null,
+  activePoll: {
+    id: '',
+    question: '',
+    votes: [],
+    answers: '',
+    author: '',
+    date: null,
+    hasVoted: false,
+  },
 };
