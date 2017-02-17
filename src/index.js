@@ -160,7 +160,7 @@ apiRoutes.post('/vote', tokenVerify, (req, res) => {
     {
       $push: {
         votes: {
-          _id: req.body.userId,
+          user: req.body.userId,
           answer: req.body.answer,
         },
       },

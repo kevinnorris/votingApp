@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {setActivePoll, getPoll} from '../../store/actions';
+import AnswersDisplay from '../../components/answersDisplay';
 
 import './poll.scss';
 
@@ -13,6 +14,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   polls: state.polls.polls,
   activePoll: state.ui.activePoll,
+  answers: state.ui.activePoll.answers,
   userId: state.auth.user ? state.auth.user._id : '',
 });
 
@@ -20,7 +22,7 @@ class Poll extends React.Component {
   static propTypes = {
     polls: React.PropTypes.array,
     activePoll: React.PropTypes.object,
-    userId: React.PropTypes.string,
+    userId: React.PropTypes.string.isRequired,
     setPoll: React.PropTypes.func.isRequired,
     getPoll: React.PropTypes.func.isRequired,
   }
@@ -44,7 +46,10 @@ class Poll extends React.Component {
       <div>
         <h1>{this.props.activePoll.question}</h1>
         <p>{this.props.activePoll.author}</p>
-        {this.props.activePoll.hasVoted ? 'Show list of answers' : 'Show D3 chart'}
+        {this.props.activePoll.hasVoted ?
+          'Show D3 chart' :
+          <AnswersDisplay answers={this.props.activePoll.answers} />
+        }
       </div>
     );
   }

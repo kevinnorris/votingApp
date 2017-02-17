@@ -22,7 +22,7 @@ export const initialUIState = {
     id: '',
     question: '',
     votes: [],
-    answers: '',
+    answers: [],
     author: '',
     date: null,
     hasVoted: false,
