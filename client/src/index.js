@@ -28,7 +28,7 @@ ReactDOM.render((
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <IndexRoute component={Home} onEnter={requireAuth} />
+        <IndexRoute component={Home} />
         <Route path="login" component={Login} />
         <Route path="profile" component={Profile} onEnter={requireAuth} />
         <Route path="poll(/:pollId)" component={Poll} />
