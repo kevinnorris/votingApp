@@ -6,6 +6,7 @@ const Poll = new mongoose.Schema({
     user: String,
     answer: String,
   }],
+  voteCount: Number,
   answers: Array,
   author: String,
   date: Date,

@@ -5,7 +5,7 @@ import {Grid, ListGroup, ListGroupItem, Col} from 'react-bootstrap';
 import pollOverview from '../pollOverview';
 import './pollList.scss';
 
-const pollList = ({sortByVotes, ascending, toggleSort, polls}) => {
+const pollList = ({sortByVotes, ascending, sortChange, polls}) => {
   const elemClass = 'pollList_titleElement';
   let numVoteClass = `${elemClass} pollList_sortToggle`;
   let dateClass = numVoteClass;
@@ -21,12 +21,12 @@ const pollList = ({sortByVotes, ascending, toggleSort, polls}) => {
         <ListGroupItem key={'title'} className="row" active >
           <Col xs={8} sm={4} className={elemClass}>Question</Col>
           <Col xs={4} sm={2} className={numVoteClass}>
-            <span onClick={() => toggleSort('votes')}>
+            <span onClick={() => sortChange(true)}>
               Votes
             </span>
           </Col>
           <Col xs={8} sm={4} className={dateClass}>
-            <span onClick={() => toggleSort('date')}>
+            <span onClick={() => sortChange(false)}>
               Date
             </span>
           </Col>
@@ -36,7 +36,7 @@ const pollList = ({sortByVotes, ascending, toggleSort, polls}) => {
           pollOverview(
             poll._id,
             poll.question,
-            poll.votes.length,
+            poll.voteCount,
             poll.author,
             new Date(poll.date).toLocaleString(),
             false))

@@ -29,6 +29,16 @@ export const polls = (state = initialPollsState, action) => {
         ...state,
         activePoll: action.payload.pollId,
       };
+    case ActionTypes.SET_ASCENDING:
+      return {
+        ...state,
+        ascending: action.payload.ascending,
+      };
+    case ActionTypes.SET_SORT:
+      return {
+        ...state,
+        sortByVotes: action.payload.sortByVotes,
+      };
     default:
       return state;
   }

@@ -29,6 +29,16 @@ export const setActivePoll = payload => ({
 
 
 // Poll actions
+export const setAscending = payload => ({
+  type: ActionTypes.SET_ASCENDING,
+  payload,
+});
+
+export const setSort = payload => ({
+  type: ActionTypes.SET_SORT,
+  payload,
+})
+
 const requestPolls = payload => ({
   type: ActionTypes.REQUEST_POLLS,
   payload,
@@ -44,11 +54,13 @@ const errorPolls = payload => ({
   payload,
 });
 
-export const getPolls = () => (
+export const getPolls = payload => (
   (dispatch) => {
     dispatch(requestPolls());
+    dispatch(setAscending({ascending: payload.ascending}));
+    dispatch(setSort({sortByVotes: payload.sortByVotes}));
 
-    return fetch(`${apiUrl}getPolls`)
+    return fetch(`${apiUrl}getPolls?ascending=${payload.ascending}&sortByVotes=${payload.sortByVotes}`)
       .then(response => response.json())
       .then((json) => {
         if (json.success) {

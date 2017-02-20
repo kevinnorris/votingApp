@@ -13,7 +13,7 @@ import './home.scss';
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logoutUser()),
-  getpolls: () => dispatch(getPolls()),
+  getpolls: payload => dispatch(getPolls(payload)),
   changePage: payload => dispatch(changePage(payload)),
 });
 
@@ -42,7 +42,7 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getpolls();
+    this.props.getpolls({ascending: this.props.ascending, sortByVotes: this.props.sortByVotes});
   }
 
   handelLogout = () => {
@@ -54,9 +54,14 @@ class Home extends React.Component {
     // TODO call getPolls with current sort oreder and new active page
   }
 
-  handelToggelSort = (type) => {
-    console.log(`Sort changed for ${type}`);
-    // TODO call getPolls with new sort order and no active page
+  handelSortChange = (sortByVotes) => {
+    // If clicked on catagory already selected, switch order
+    if (this.props.sortByVotes === sortByVotes) {
+      this.props.getpolls({ascending: !this.props.ascending, sortByVotes: this.props.sortByVotes});
+    } else {
+      // Otherwise switch category with default descending order
+      this.props.getpolls({ascending: false, sortByVotes: !this.props.sortByVotes});
+    }
   }
 
   render() {
@@ -75,7 +80,7 @@ class Home extends React.Component {
         <PollList
           sortByVotes={this.props.sortByVotes}
           ascending={this.props.ascending}
-          toggleSort={this.handelToggelSort}
+          sortChange={this.handelSortChange}
           polls={this.props.polls}
         />
         <Pagination

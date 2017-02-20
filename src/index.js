@@ -100,6 +100,7 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   const newPoll = new Poll();
   newPoll.question = req.body.question;
   newPoll.votes = [];
+  newPoll.voteCount = 0;
   newPoll.answers = req.body.answers.split(',');
   newPoll.author = req.body.author;
   newPoll.date = new Date();
@@ -138,8 +139,9 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
 
 /*
   Optional params:
-    req.query.sortByVotes: bool
-    req.query.startId: mongoose objectId for a poll
+    req.query.sortByVotes: string  'true' or 'false'
+    req.query.ascending: string  'true' or 'false'
+    req.query.startId: string   ;mongoose objectId for a poll
 
   Default sorts by last added
   returns 10 polls, starting from poll after startId if specified
@@ -151,14 +153,37 @@ apiRoutes.get('/getPolls', (req, res) => {
     if (e) {
       return res.json({success: false, message: e.message});
     }
+    const numOfPages = Math.ceil(count / pollLimit);
+    // To implement sorting by votes, change db to track vote count
 
-    // Default
-    Poll.find().sort({_id: -1}).limit(pollLimit).exec((err, polls) => {
-      if (err) {
-        return res.json({success: false, message: err.message});
-      }
-      return res.json({success: true, polls, numOfPages: Math.ceil(count / pollLimit)});
-    });
+    let sortBy;
+    if (req.query.sortByVotes === 'true') {
+      sortBy = {voteCount: req.query.ascending === 'true' ? 1 : -1};
+    } else {
+      sortBy = {_id: req.query.ascending === 'true' ? 1 : -1};
+    }
+
+    // if (req.query.startId) {
+      // If startId specified filter search starting at startId
+      // const start = mongoose.Types.ObjectId(req.query.startId);
+    if (req.query.page) {
+      // Poll.find().where({_id: {$gt: start}}).sort(sortBy).limit(pollLimit)
+      Poll.find().sort(sortBy).limit(pollLimit).skip(pollLimit * req.query.page)
+        .exec((err, polls) => {
+          if (err) {
+            return res.json({success: false, message: err.message});
+          }
+          return res.json({success: true, polls, numOfPages});
+        });
+    } else {
+      Poll.find().sort(sortBy).limit(pollLimit)
+        .exec((err, polls) => {
+          if (err) {
+            return res.json({success: false, message: err.message});
+          }
+          return res.json({success: true, polls, numOfPages});
+        });
+    }
   });
 });
 
@@ -182,6 +207,7 @@ apiRoutes.post('/vote', (req, res) => {
           answer: req.body.answer,
         },
       },
+      $inc: {voteCount: 1},
     },
     (err) => {
       if (err) {
@@ -192,6 +218,7 @@ apiRoutes.post('/vote', (req, res) => {
   );
 });
 
+// Test that both removes vote and decreases voteCount
 apiRoutes.post('/removeVote', tokenVerify, (req, res) => {
   console.log(req.body);
   Poll.update(
@@ -202,6 +229,7 @@ apiRoutes.post('/removeVote', tokenVerify, (req, res) => {
           user: req.body.userId,
         },
       },
+      $dec: {voteCount: 1},
     },
     {multi: false},
     (err) => {
