@@ -7,13 +7,13 @@ const nextKey = () => {
   return k;
 };
 
-const answerDisplay = answer => (
-  <ListGroupItem key={nextKey()}>{answer}</ListGroupItem>
+const answerDisplay = (answer, vote) => (
+  <ListGroupItem key={nextKey()} onClick={() => vote(answer)}>{answer}</ListGroupItem>
 );
 
-const answersDisplay = ({answers}) => (
+const answersDisplay = ({answers, vote}) => (
   <ListGroup>
-    {answers.map(a => answerDisplay(a))}
+    {answers.map(a => answerDisplay(a, vote))}
   </ListGroup>
 );
 
