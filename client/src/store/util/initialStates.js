@@ -18,6 +18,7 @@ export const initialPollsState = {
   activePage: 1,
   numOfPages: 1,
   sortByVotes: false,
+  ascending: false,
 };
 
 export const initialUIState = {

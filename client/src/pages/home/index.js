@@ -6,7 +6,7 @@ import {Grid, ListGroup, Pagination} from 'react-bootstrap';
 
 // our packages
 import {logoutUser, getPolls, changePage} from '../../store/actions';
-import pollOverview from '../../components/pollOverview';
+import PollList from '../../components/pollList';
 
 // style
 import './home.scss';
@@ -24,6 +24,7 @@ const mapStateToProps = state => ({
   numOfPages: state.polls.numOfPages,
   name: state.auth.user ? state.auth.user.github.displayName : '',
   sortByVotes: state.polls.sortByVotes,
+  ascending: state.polls.ascending,
 });
 
 class Home extends React.Component {
@@ -32,6 +33,7 @@ class Home extends React.Component {
     polls: React.PropTypes.array,
     name: React.PropTypes.string,
     sortByVotes: React.PropTypes.bool,
+    ascending: React.PropTypes.bool,
     activePage: React.PropTypes.number.isRequired,
     numOfPages: React.PropTypes.number.isRequired,
     logout: React.PropTypes.func.isRequired,
@@ -52,8 +54,8 @@ class Home extends React.Component {
     // TODO call getPolls with current sort oreder and new active page
   }
 
-  handelToggelSort = () => {
-    console.log('Sort changed');
+  handelToggelSort = (type) => {
+    console.log(`Sort changed for ${type}`);
     // TODO call getPolls with new sort order and no active page
   }
 
@@ -70,27 +72,12 @@ class Home extends React.Component {
             <Link to="/login">Login</Link>
           }
         </div>
-        <Grid>
-          <ListGroup id="home_PollList">
-            {pollOverview(
-              'pollOverviewTitle',
-              'Question', 'Votes',
-              'Author', 'Date',
-              true,
-              this.props.sortByVotes,
-              this.handelToggelSort,
-              )}
-            {this.props.polls.map(poll =>
-              pollOverview(
-                poll._id,
-                poll.question,
-                poll.votes.length,
-                poll.author,
-                new Date(poll.date).toLocaleString(),
-                false))
-            }
-          </ListGroup>
-        </Grid>
+        <PollList
+          sortByVotes={this.props.sortByVotes}
+          ascending={this.props.ascending}
+          toggleSort={this.handelToggelSort}
+          polls={this.props.polls}
+        />
         <Pagination
           id="home_pageSelection"
           prev

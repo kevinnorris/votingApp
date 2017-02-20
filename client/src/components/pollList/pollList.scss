@@ -1,0 +1,28 @@
+#pollList{
+  margin-bottom: 0;
+}
+
+.pollList_titleElement{
+  font-weight: bold;
+  padding: 5px 0;
+}
+
+.pollList_sortToggle{
+  cursor: pointer;
+  margin: 0;
+  text-decoration: underline;
+}
+
+.pollList_heighlightDesc{
+  span::after{
+    font-family: "FontAwesome";
+    content: " \f0d7";
+  }
+}
+
+.pollList_heighlightAsc{
+  span::after{
+    font-family: "FontAwesome";
+    content: " \f0de";
+  }
+}
