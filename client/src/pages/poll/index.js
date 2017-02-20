@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {setActivePoll, getPoll} from '../../store/actions';
+import {setActivePoll, getPoll, vote} from '../../store/actions';
 import AnswersDisplay from '../../components/answersDisplay';
 
 import './poll.scss';
@@ -9,6 +9,7 @@ import './poll.scss';
 const mapDispatchToProps = dispatch => ({
   setPoll: payload => dispatch(setActivePoll(payload)),
   getPoll: payload => dispatch(getPoll(payload)),
+  vote: payload => dispatch(vote(payload)),
 });
 
 const mapStateToProps = state => ({
@@ -25,19 +26,23 @@ class Poll extends React.Component {
     userId: React.PropTypes.string.isRequired,
     setPoll: React.PropTypes.func.isRequired,
     getPoll: React.PropTypes.func.isRequired,
+    vote: React.PropTypes.func.isRequired,
   }
 
   componentWillMount() {
-    // Load the given poll as the active poll
-    console.log('polls: ', this.props.polls);
+    // If the state contains polls
     if (this.props.polls.length > 0) {
-      console.log('poll exists');
       const poll = this.props.polls.find(p => p._id === this.props.params.pollId);
       this.props.setPoll({userId: this.props.userId, poll});
+      // this.props.setPoll({pollId: this.props.params.pollId});
     } else {
       console.log('poll does not exist');
       this.props.getPoll({pollId: this.props.params.pollId, userId: this.props.userId});
     }
+  }
+
+  handelVote = (answer) => {
+    this.props.vote({answer, pollId: this.props.params.pollId, userId: this.props.userId});
   }
 
   render() {
@@ -48,7 +53,7 @@ class Poll extends React.Component {
         <p>{this.props.activePoll.author}</p>
         {this.props.activePoll.hasVoted ?
           'Show D3 chart' :
-          <AnswersDisplay answers={this.props.activePoll.answers} />
+          <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />
         }
       </div>
     );

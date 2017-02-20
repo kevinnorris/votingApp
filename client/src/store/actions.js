@@ -67,11 +67,6 @@ const requestPoll = payload => ({
   payload,
 });
 
-const receivePoll = payload => ({
-  type: ActionTypes.RECIEVED_POLLS,
-  payload,
-});
-
 const errorPoll = payload => ({
   type: ActionTypes.ERROR_POLLS,
   payload,
@@ -92,6 +87,37 @@ export const getPoll = payload => (
       }).catch((err) => {
         dispatch(errorPoll({error: err.message, location: 'fetch'}));
       });
+  }
+);
+
+const sendVote = () => ({
+  type: ActionTypes.SENDING_VOTE,
+});
+
+
+const errorVote = () => ({
+  type: ActionTypes.ERROR_VOTE,
+});
+
+export const vote = payload => (
+  (dispatch) => {
+    dispatch(sendVote());
+
+    return fetch(`${apiUrl}vote`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json())
+      .then((json) => {
+        if (json.success) {
+          dispatch(getPolls());
+        } else {
+          dispatch(errorVote({error: json.error, location: 'json'}));
+        }
+      }).catch(err =>
+        dispatch(errorVote({error: err.message, location: 'fetch'})),
+      );
   }
 );
 

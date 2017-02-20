@@ -154,7 +154,8 @@ apiRoutes.get('/getPoll', (req, res) => {
   });
 });
 
-apiRoutes.post('/vote', tokenVerify, (req, res) => {
+apiRoutes.post('/vote', (req, res) => {
+  console.log(req.body);
   Poll.update(
     {_id: req.body.pollId},
     {
@@ -165,6 +166,27 @@ apiRoutes.post('/vote', tokenVerify, (req, res) => {
         },
       },
     },
+    (err) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true});
+    },
+  );
+});
+
+apiRoutes.post('/removeVote', tokenVerify, (req, res) => {
+  console.log(req.body);
+  Poll.update(
+    {_id: req.body.pollId},
+    {
+      $pull: {
+        votes: {
+          user: req.body.userId,
+        },
+      },
+    },
+    {multi: false},
     (err) => {
       if (err) {
         return res.json({success: false, message: err.message});
