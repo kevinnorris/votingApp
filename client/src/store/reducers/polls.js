@@ -22,6 +22,7 @@ export const polls = (state = initialPollsState, action) => {
         error: null,
         isFetching: false,
         polls: action.payload.polls,
+        numOfPages: action.payload.numOfPages,
       };
     case ActionTypes.SET_ACTIVE_POLL:
       return {

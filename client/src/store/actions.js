@@ -52,7 +52,7 @@ export const getPolls = () => (
       .then(response => response.json())
       .then((json) => {
         if (json.success) {
-          dispatch(receivePolls({polls: json.polls}));
+          dispatch(receivePolls({polls: json.polls, numOfPages: json.numOfPages}));
         } else {
           dispatch(errorPolls({error: json.error, location: 'json'}));
         }

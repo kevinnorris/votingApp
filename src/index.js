@@ -136,12 +136,29 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
   );
 });
 
+/*
+  Optional params:
+    req.query.sortByVotes: bool
+    req.query.startId: mongoose objectId for a poll
+
+  Default sorts by last added
+  returns 10 polls, starting from poll after startId if specified
+*/
+const pollLimit = 10;
 apiRoutes.get('/getPolls', (req, res) => {
-  Poll.find({}, (err, polls) => {
-    if (err) {
-      return res.json({success: false, message: err.message});
+  // Get num of polls
+  Poll.count({}, (e, count) => {
+    if (e) {
+      return res.json({success: false, message: e.message});
     }
-    return res.json({success: true, polls});
+
+    // Default
+    Poll.find().sort({_id: -1}).limit(pollLimit).exec((err, polls) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true, polls, numOfPages: Math.ceil(count / pollLimit)});
+    });
   });
 });
 

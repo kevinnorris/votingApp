@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
   isFetching: state.polls.isFetching,
   polls: state.polls.polls,
   activePage: state.polls.activePage,
-  numPages: state.polls.numberOfPages,
+  numOfPages: state.polls.numOfPages,
   name: state.auth.user ? state.auth.user.github.displayName : '',
   sortByVotes: state.polls.sortByVotes,
 });
@@ -33,7 +33,7 @@ class Home extends React.Component {
     name: React.PropTypes.string,
     sortByVotes: React.PropTypes.bool,
     activePage: React.PropTypes.number.isRequired,
-    numPages: React.PropTypes.number.isRequired,
+    numOfPages: React.PropTypes.number.isRequired,
     logout: React.PropTypes.func.isRequired,
     getpolls: React.PropTypes.func.isRequired,
     changePage: React.PropTypes.func.isRequired,
@@ -49,10 +49,12 @@ class Home extends React.Component {
 
   handelSelect = (eventKey) => {
     console.log(`Page selected: ${eventKey}`);
+    // TODO call getPolls with current sort oreder and new active page
   }
 
   handelToggelSort = () => {
     console.log('Sort changed');
+    // TODO call getPolls with new sort order and no active page
   }
 
   render() {
@@ -95,7 +97,7 @@ class Home extends React.Component {
           next
           ellipsis
           boundaryLinks
-          items={this.props.numPages}
+          items={this.props.numOfPages}
           maxButtons={5}
           activePage={this.props.activePage}
           onSelect={this.handelSelect}

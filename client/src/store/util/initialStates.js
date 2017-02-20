@@ -16,7 +16,7 @@ export const initialPollsState = {
   error: null,
   activePoll: '',
   activePage: 1,
-  numberOfPages: 1,
+  numOfPages: 1,
   sortByVotes: false,
 };
 
