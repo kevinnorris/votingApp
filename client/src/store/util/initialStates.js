@@ -14,10 +14,13 @@ export const initialPollsState = {
   isFetching: false,
   polls: [],
   error: null,
+  activePoll: '',
+  activePage: 1,
+  numberOfPages: 1,
+  sortByVotes: false,
 };
 
 export const initialUIState = {
-  orderByVotes: false,
   activePoll: {
     id: '',
     question: '',

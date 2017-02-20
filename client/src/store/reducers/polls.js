@@ -18,9 +18,15 @@ export const polls = (state = initialPollsState, action) => {
       };
     case ActionTypes.RECIEVED_POLLS:
       return {
+        ...state,
         error: null,
         isFetching: false,
         polls: action.payload.polls,
+      };
+    case ActionTypes.SET_ACTIVE_POLL:
+      return {
+        ...state,
+        activePoll: action.payload.pollId,
       };
     default:
       return state;
