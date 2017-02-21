@@ -42,7 +42,11 @@ class Home extends React.Component {
   }
 
   componentWillMount() {
-    this.props.getpolls({ascending: this.props.ascending, sortByVotes: this.props.sortByVotes});
+    this.props.getpolls({
+      ascending: this.props.ascending,
+      sortByVotes: this.props.sortByVotes,
+      activePage: this.props.activePage,
+    });
   }
 
   handelLogout = () => {
@@ -50,17 +54,28 @@ class Home extends React.Component {
   }
 
   handelSelect = (eventKey) => {
-    console.log(`Page selected: ${eventKey}`);
-    // TODO call getPolls with current sort oreder and new active page
+    this.props.getpolls({
+      ascending: this.props.ascending,
+      sortByVotes: this.props.sortByVotes,
+      activePage: eventKey,
+    });
   }
 
   handelSortChange = (sortByVotes) => {
     // If clicked on catagory already selected, switch order
     if (this.props.sortByVotes === sortByVotes) {
-      this.props.getpolls({ascending: !this.props.ascending, sortByVotes: this.props.sortByVotes});
+      this.props.getpolls({
+        ascending: !this.props.ascending,
+        sortByVotes: this.props.sortByVotes,
+        activePage: this.props.activePage,
+      });
     } else {
       // Otherwise switch category with default descending order
-      this.props.getpolls({ascending: false, sortByVotes: !this.props.sortByVotes});
+      this.props.getpolls({
+        ascending: false,
+        sortByVotes: !this.props.sortByVotes,
+        activePage: this.props.activePage,
+      });
     }
   }
 

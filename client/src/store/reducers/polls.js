@@ -39,6 +39,11 @@ export const polls = (state = initialPollsState, action) => {
         ...state,
         sortByVotes: action.payload.sortByVotes,
       };
+    case ActionTypes.SET_PAGE:
+      return {
+        ...state,
+        activePage: action.payload.activePage,
+      };
     default:
       return state;
   }

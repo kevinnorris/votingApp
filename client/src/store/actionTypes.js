@@ -11,6 +11,7 @@ export const RECIEVED_POLL = 'RECIEVED_POLL';
 export const ERROR_POLL = 'ERROR_POLL';
 export const SET_ASCENDING = 'SET_ASCENDING';
 export const SET_SORT = 'SET_SORT';
+export const SET_PAGE = 'SET_PAGE';
 
 // ui actions
 export const TOGGLE_ORDER_BY = 'TOGGLE_ORDER_BY';

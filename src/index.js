@@ -141,11 +141,9 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
   Optional params:
     req.query.sortByVotes: string  'true' or 'false'
     req.query.ascending: string  'true' or 'false'
-    req.query.startId: string   ;mongoose objectId for a poll
-
-  Default sorts by last added
-  returns 10 polls, starting from poll after startId if specified
+    req.query.activePage: string       number of active page
 */
+
 const pollLimit = 10;
 apiRoutes.get('/getPolls', (req, res) => {
   // Get num of polls
@@ -154,21 +152,16 @@ apiRoutes.get('/getPolls', (req, res) => {
       return res.json({success: false, message: e.message});
     }
     const numOfPages = Math.ceil(count / pollLimit);
-    // To implement sorting by votes, change db to track vote count
 
     let sortBy;
     if (req.query.sortByVotes === 'true') {
-      sortBy = {voteCount: req.query.ascending === 'true' ? 1 : -1};
+      sortBy = {voteCount: req.query.ascending === 'true' ? 1 : -1, _id: -1};
     } else {
-      sortBy = {_id: req.query.ascending === 'true' ? 1 : -1};
+      sortBy = {_id: req.query.ascending === 'true' ? 1 : -1, voteCount: -1};
     }
 
-    // if (req.query.startId) {
-      // If startId specified filter search starting at startId
-      // const start = mongoose.Types.ObjectId(req.query.startId);
-    if (req.query.page) {
-      // Poll.find().where({_id: {$gt: start}}).sort(sortBy).limit(pollLimit)
-      Poll.find().sort(sortBy).limit(pollLimit).skip(pollLimit * req.query.page)
+    if (req.query.activePage) {
+      Poll.find().sort(sortBy).limit(pollLimit).skip(pollLimit * (req.query.activePage - 1))
         .exec((err, polls) => {
           if (err) {
             return res.json({success: false, message: err.message});

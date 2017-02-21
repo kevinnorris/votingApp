@@ -34,10 +34,15 @@ export const setAscending = payload => ({
   payload,
 });
 
+const setPage = payload => ({
+  type: ActionTypes.SET_PAGE,
+  payload,
+});
+
 export const setSort = payload => ({
   type: ActionTypes.SET_SORT,
   payload,
-})
+});
 
 const requestPolls = payload => ({
   type: ActionTypes.REQUEST_POLLS,
@@ -57,10 +62,16 @@ const errorPolls = payload => ({
 export const getPolls = payload => (
   (dispatch) => {
     dispatch(requestPolls());
-    dispatch(setAscending({ascending: payload.ascending}));
-    dispatch(setSort({sortByVotes: payload.sortByVotes}));
 
-    return fetch(`${apiUrl}getPolls?ascending=${payload.ascending}&sortByVotes=${payload.sortByVotes}`)
+    let queryString = '?';
+    dispatch(setAscending({ascending: payload.ascending}));
+    queryString += `ascending=${payload.ascending}`;
+    dispatch(setSort({sortByVotes: payload.sortByVotes}));
+    queryString += `&sortByVotes=${payload.sortByVotes}`;
+    dispatch(setPage({activePage: payload.activePage}));
+    queryString += `&activePage=${payload.activePage}`;
+
+    return fetch(`${apiUrl}getPolls${queryString}`)
       .then(response => response.json())
       .then((json) => {
         if (json.success) {
