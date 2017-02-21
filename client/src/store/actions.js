@@ -118,8 +118,9 @@ const sendVote = () => ({
 });
 
 
-const errorVote = () => ({
+const errorVote = payload => ({
   type: ActionTypes.ERROR_VOTE,
+  payload,
 });
 
 export const vote = payload => (
@@ -134,7 +135,7 @@ export const vote = payload => (
       .then(response => response.json())
       .then((json) => {
         if (json.success) {
-          dispatch(getPolls());
+          dispatch(getPoll({pollId: payload.pollId, userId: payload.userId}));
         } else {
           dispatch(errorVote({error: json.error, location: 'json'}));
         }

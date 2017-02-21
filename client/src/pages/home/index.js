@@ -70,11 +70,11 @@ class Home extends React.Component {
         activePage: this.props.activePage,
       });
     } else {
-      // Otherwise switch category with default descending order
+      // Otherwise switch category with default descending order and first page
       this.props.getpolls({
         ascending: false,
         sortByVotes: !this.props.sortByVotes,
-        activePage: this.props.activePage,
+        activePage: 1,
       });
     }
   }

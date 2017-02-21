@@ -14,8 +14,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   polls: state.polls.polls,
-  activePoll: state.ui.activePoll,
-  answers: state.ui.activePoll.answers,
+  activePoll: state.polls.activePoll,
+  answers: state.polls.activePoll.answers,
   userId: state.auth.user ? state.auth.user._id : '',
 });
 
@@ -30,15 +30,7 @@ class Poll extends React.Component {
   }
 
   componentWillMount() {
-    // If the state contains polls
-    if (this.props.polls.length > 0) {
-      const poll = this.props.polls.find(p => p._id === this.props.params.pollId);
-      this.props.setPoll({userId: this.props.userId, poll});
-      // this.props.setPoll({pollId: this.props.params.pollId});
-    } else {
-      console.log('poll does not exist');
-      this.props.getPoll({pollId: this.props.params.pollId, userId: this.props.userId});
-    }
+    this.props.getPoll({pollId: this.props.params.pollId, userId: this.props.userId});
   }
 
   handelVote = (answer) => {

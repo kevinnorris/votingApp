@@ -143,7 +143,6 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
     req.query.ascending: string  'true' or 'false'
     req.query.activePage: string       number of active page
 */
-
 const pollLimit = 10;
 apiRoutes.get('/getPolls', (req, res) => {
   // Get num of polls
