@@ -7,6 +7,7 @@ import {Grid, ListGroup, Pagination} from 'react-bootstrap';
 // our packages
 import {logoutUser, getPolls, changePage} from '../../store/actions';
 import PollList from '../../components/pollList';
+import Header from '../../components/header';
 
 // style
 import './home.scss';
@@ -81,34 +82,27 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="home">
-        <h1>Quick Poll</h1>
-        {this.props.name ? <p className="welcome">Welcome, {this.props.name}!</p> : ''}
-        <div className="link-container">
-          {this.props.name ? <Link to="/profile">Profile</Link> : ''}
-          <p>|</p>
-          {this.props.name ?
-            <Link to="/" onClick={this.handelLogout}>Logout</Link> :
-            <Link to="/login">Login</Link>
-          }
+      <div>
+        <Header />
+        <div className="container text-center">
+          <PollList
+            sortByVotes={this.props.sortByVotes}
+            ascending={this.props.ascending}
+            sortChange={this.handelSortChange}
+            polls={this.props.polls}
+          />
+          <Pagination
+            id="home_pageSelection"
+            prev
+            next
+            ellipsis
+            boundaryLinks
+            items={this.props.numOfPages}
+            maxButtons={5}
+            activePage={this.props.activePage}
+            onSelect={this.handelSelect}
+          />
         </div>
-        <PollList
-          sortByVotes={this.props.sortByVotes}
-          ascending={this.props.ascending}
-          sortChange={this.handelSortChange}
-          polls={this.props.polls}
-        />
-        <Pagination
-          id="home_pageSelection"
-          prev
-          next
-          ellipsis
-          boundaryLinks
-          items={this.props.numOfPages}
-          maxButtons={5}
-          activePage={this.props.activePage}
-          onSelect={this.handelSelect}
-        />
       </div>
     );
   }

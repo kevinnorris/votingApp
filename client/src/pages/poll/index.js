@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 
 import {setActivePoll, getPoll, vote} from '../../store/actions';
 import AnswersDisplay from '../../components/answersDisplay';
+import Header from '../../components/header';
 
 import './poll.scss';
 
@@ -41,12 +42,15 @@ class Poll extends React.Component {
     // parse this.props.activePoll.votes into data usable by d3 chart
     return (
       <div>
-        <h1 className="poll_center">{this.props.activePoll.question}</h1>
-        <p className="poll_center">By {this.props.activePoll.author}</p>
-        {this.props.activePoll.hasVoted ?
-          'Show D3 chart' :
-          <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />
-        }
+        <Header />
+        <div className="container">
+          <h1 className="poll_center">{this.props.activePoll.question}</h1>
+          <p className="poll_center">By {this.props.activePoll.author}</p>
+          {this.props.activePoll.hasVoted ?
+            'Show D3 chart' :
+            <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />
+          }
+        </div>
       </div>
     );
   }

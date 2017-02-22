@@ -5,7 +5,7 @@ import React from 'react';
 require('./app.scss');
 
 export default ({children}) => (
-  <div className="container">
+  <div>
     {children}
   </div>
 );
