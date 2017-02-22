@@ -97,11 +97,12 @@ apiRoutes.get('/getUsers', tokenVerify, (req, res) => {
 });
 
 apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
+  console.log(req.body);
   const newPoll = new Poll();
   newPoll.question = req.body.question;
   newPoll.votes = [];
   newPoll.voteCount = 0;
-  newPoll.answers = req.body.answers.split(',');
+  newPoll.answers = req.body.answers;
   newPoll.author = req.body.author;
   newPoll.date = new Date();
 

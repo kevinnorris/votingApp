@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Row, Col, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
 import Header from '../../components/header';
-import {vote} from '../../store/actions';
+import {submitNewPoll} from '../../store/actions';
 
 import './newPoll.scss';
 
@@ -18,9 +19,13 @@ const answer = (value, index, handelChange) => (
   />
 );
 
+const mapStateToProps = state => ({
+  userId: state.auth.user._id,
+  token: state.auth.token,
+});
 
 const mapDispatchToProps = dispatch => ({
-  vote: payload => dispatch(vote(payload)),
+  submitNewPoll: payload => dispatch(submitNewPoll(payload)),
 });
 
 class NewPoll extends React.Component {
@@ -54,12 +59,20 @@ class NewPoll extends React.Component {
         [name]: value,
       });
     }
-    console.log(this.state);
   }
 
   addAnswers = () => {
     this.setState({
       additionalAnswers: [...this.state.additionalAnswers, '', ''],
+    });
+  }
+
+  handelSubmit = () => {
+    this.props.submitNewPoll({
+      question: this.state.question,
+      answers: [this.state.answer1, this.state.answer2, ...this.state.additionalAnswers],
+      author: this.props.userId,
+      token: this.props.token,
     });
   }
 
@@ -103,9 +116,11 @@ class NewPoll extends React.Component {
                 More answers
               </Button>
               <br />
-              <Button bsStyle="success" className="newPoll_submitBtn">
-                Submit
-              </Button>
+              <LinkContainer to="/myPolls">
+                <Button bsStyle="success" className="newPoll_submitBtn" onClick={this.handelSubmit}>
+                  Submit
+                </Button>
+              </LinkContainer>
             </Col>
           </Row>
         </div>
@@ -114,4 +129,9 @@ class NewPoll extends React.Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(NewPoll);
+NewPoll.propTypes = {
+  userId: React.PropTypes.string.isRequired,
+  submitNewPoll: React.PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPoll);

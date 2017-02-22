@@ -21,14 +21,13 @@ export const logoutUser = () => {
   return {type: ActionTypes.LOGOUT};
 };
 
-// Ui actions
+// Poll actions
+
 export const setActivePoll = payload => ({
   type: ActionTypes.SET_ACTIVE_POLL,
   payload,
 });
 
-
-// Poll actions
 export const setAscending = payload => ({
   type: ActionTypes.SET_ASCENDING,
   payload,
@@ -141,6 +140,35 @@ export const vote = payload => (
         }
       }).catch(err =>
         dispatch(errorVote({error: err.message, location: 'fetch'})),
+      );
+  }
+);
+
+const sendingNewPoll = () => ({
+  type: ActionTypes.SENDING_NEW_POLL,
+});
+
+const errorNewPoll = payload => ({
+  type: ActionTypes.SENDING_NEW_POLL,
+  payload,
+});
+
+export const submitNewPoll = payload => (
+  (dispatch) => {
+    dispatch(sendingNewPoll());
+
+    return fetch(`${apiUrl}savePoll`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json())
+      .then((json) => {
+        if (!json.success) {
+          dispatch(errorNewPoll({error: json.error, location: 'json'}));
+        }
+      }).catch(err =>
+        dispatch(errorNewPoll({error: err.message, location: 'fetch'})),
       );
   }
 );
