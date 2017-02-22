@@ -10,10 +10,9 @@ export const auth = (state = initialAuthState, action) => {
         token: action.payload,
       };
     case ActionTypes.LOGIN_SUCCESS:
-      const {nbrClicks, ...rest} = action.payload.user; // remove nbrClicks from user
       return {
         token: action.payload.token,
-        user: rest,
+        user: action.payload.user,
       };
     case ActionTypes.LOGOUT:
       return {
