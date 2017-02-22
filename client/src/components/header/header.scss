@@ -25,6 +25,10 @@ a.header_jumboLink{
   margin: 0 5px;
 }
 
-.header_title{
-  cursor: pointer;
+#header_title{
+  color: white;
+  text-decoration: none;
+  :hover{
+    text-decoration: none;
+  }
 }
