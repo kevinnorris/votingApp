@@ -2,6 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 import {Jumbotron, Button} from 'react-bootstrap';
 
 // our packages
@@ -22,6 +23,7 @@ const NavBar = ({name, logout}) => {
   if (name) {
     return (
       <ul className="header_topnav">
+        <li className="header_home"><Link to="/">Home</Link></li>
         <li><Link to="/" onClick={logout}>Logout</Link></li>
         <li className="header_divider"> | </li>
         <li>Hello {name}!</li>
@@ -47,11 +49,17 @@ class Header extends React.Component {
           <NavBar name={this.props.name} logout={this.handelLogout} />
         </div>
         <Jumbotron className="text-center header_jumbo">
-          <h1>Quick Poll</h1>
+          <LinkContainer to="/" className="header_title">
+            <h1>Quick Poll</h1>
+          </LinkContainer>
           {this.props.name ?
             <p>
-              <Button className="header_jumboBtn" bsStyle="success">New Poll</Button>
-              <Button className="header_jumboBtn" bsStyle="primary">My Polls</Button>
+              <LinkContainer to="/newPoll" className="header_jumboLink">
+                <Button bsStyle="success">New Poll</Button>
+              </LinkContainer>
+              <LinkContainer to="/myPolls" className="header_jumboLink">
+                <Button bsStyle="primary">My Polls</Button>
+              </LinkContainer>
             </p> :
             ''
           }

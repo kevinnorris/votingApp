@@ -18,6 +18,8 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Profile from './pages/profile';
 import Poll from './pages/poll';
+import MyPolls from './pages/myPolls';
+import NewPoll from './pages/newPoll';
 import NotFound from './pages/notfound';
 
 // Create an enhanced history that syncs navigation events with the store
@@ -32,6 +34,8 @@ ReactDOM.render((
         <Route path="login" component={Login} />
         <Route path="profile" component={Profile} onEnter={requireAuth} />
         <Route path="poll(/:pollId)" component={Poll} />
+        <Route path="myPolls" component={MyPolls} onEnter={requireAuth} />
+        <Route path="newPoll" component={NewPoll} onEnter={requireAuth} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>
