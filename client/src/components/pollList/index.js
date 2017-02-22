@@ -18,25 +18,23 @@ const pollList = ({sortByVotes, ascending, sortChange, polls}) => {
   return (
     <ListGroup id="pollList">
       <ListGroupItem key={'title'} className="row" active >
-        <Col xs={8} sm={4} className={elemClass}>Question</Col>
-        <Col xs={4} sm={2} className={numVoteClass}>
+        <Col xs={12} sm={6} className={elemClass}>Question</Col>
+        <Col xs={2} sm={2} className={numVoteClass}>
           <span onClick={() => sortChange(true)}>
             Votes
           </span>
         </Col>
-        <Col xs={8} sm={4} className={dateClass}>
+        <Col xs={10} sm={4} className={dateClass}>
           <span onClick={() => sortChange(false)}>
             Date
           </span>
         </Col>
-        <Col xs={4} sm={2} className="pollOver_titleElement">Author</Col>
       </ListGroupItem>
       {polls.map(poll =>
         pollOverview(
           poll._id,
           poll.question,
           poll.voteCount,
-          poll.author,
           new Date(poll.date).toLocaleString(),
           false))
       }

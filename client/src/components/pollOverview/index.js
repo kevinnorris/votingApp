@@ -5,13 +5,12 @@ import {ListGroupItem, Col} from 'react-bootstrap';
 
 import './pollOverview.scss';
 
-const pollOverview = (id, question, numVotes, author, date) => (
+const pollOverview = (id, question, numVotes, date) => (
   <LinkContainer to={`/poll/${id}`} key={id}>
     <ListGroupItem className="row">
-      <Col xs={8} sm={4}>{question}</Col>
-      <Col xs={4} sm={2}>{numVotes}</Col>
-      <Col xs={8} sm={4}>{date}</Col>
-      <Col xs={4} sm={2}>{author}</Col>
+      <Col xs={12} sm={6} className="pollOver_question">{question}</Col>
+      <Col xs={2} sm={2}>{numVotes}</Col>
+      <Col xs={10} sm={4}>{date}</Col>
     </ListGroupItem>
   </LinkContainer>
 );
