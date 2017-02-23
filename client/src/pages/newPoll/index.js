@@ -68,9 +68,22 @@ class NewPoll extends React.Component {
   }
 
   handelSubmit = () => {
+    // Only add non empty answers to the poll
+    const answers = [];
+    if (this.state.answer1 !== '') {
+      answers.push(this.state.answer1);
+    }
+    if (this.state.answer2 !== '') {
+      answers.push(this.state.answer2);
+    }
+    for (let i = 0; i < this.state.additionalAnswers.length; i++) {
+      if (this.state.additionalAnswers[i] !== '') {
+        answers.push(this.state.additionalAnswers[i]);
+      }
+    }
     this.props.submitNewPoll({
       question: this.state.question,
-      answers: [this.state.answer1, this.state.answer2, ...this.state.additionalAnswers],
+      answers,
       author: this.props.userId,
       token: this.props.token,
     });
@@ -131,6 +144,7 @@ class NewPoll extends React.Component {
 
 NewPoll.propTypes = {
   userId: React.PropTypes.string.isRequired,
+  token: React.PropTypes.string.isRequired,
   submitNewPoll: React.PropTypes.func.isRequired,
 };
 
