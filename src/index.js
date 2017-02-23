@@ -146,8 +146,13 @@ apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
 */
 const pollLimit = 10;
 apiRoutes.get('/getPolls', (req, res) => {
+  let filterBy = {};
+  if (req.query.userId) {
+    filterBy = {author: req.query.userId};
+  }
+
   // Get num of polls
-  Poll.count({}, (e, count) => {
+  Poll.count(filterBy, (e, count) => {
     if (e) {
       return res.json({success: false, message: e.message});
     }
@@ -161,7 +166,8 @@ apiRoutes.get('/getPolls', (req, res) => {
     }
 
     if (req.query.activePage) {
-      Poll.find().sort(sortBy).limit(pollLimit).skip(pollLimit * (req.query.activePage - 1))
+      Poll.find().where(filterBy).sort(sortBy).limit(pollLimit)
+      .skip(pollLimit * (req.query.activePage - 1))
         .exec((err, polls) => {
           if (err) {
             return res.json({success: false, message: err.message});
@@ -169,7 +175,7 @@ apiRoutes.get('/getPolls', (req, res) => {
           return res.json({success: true, polls, numOfPages});
         });
     } else {
-      Poll.find().sort(sortBy).limit(pollLimit)
+      Poll.find().where(filterBy).sort(sortBy).limit(pollLimit)
         .exec((err, polls) => {
           if (err) {
             return res.json({success: false, message: err.message});
