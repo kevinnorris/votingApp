@@ -182,3 +182,39 @@ export const submitNewPoll = payload => (
       );
   }
 );
+
+const deletingPoll = () => ({
+  type: ActionTypes.DELETING_POLL,
+});
+
+const errorDeletingPoll = payload => ({
+  type: ActionTypes.ERROR_DELETING_POLL,
+  payload,
+});
+
+const successDeletingPoll = () => ({
+  type: ActionTypes.SUCCESS_DELETING_POLL,
+});
+
+export const deletePoll = payload => (
+  (dispatch) => {
+    dispatch(deletingPoll());
+
+    return fetch(`${apiUrl}deletePoll`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json())
+      .then((json) => {
+        if (json.success) {
+          dispatch(successDeletingPoll());
+        } else {
+          dispatch(errorDeletingPoll({error: json.error, location: 'json'}));
+        }
+      }).catch(err =>
+        dispatch(errorDeletingPoll({error: err.message, location: 'fetch'})),
+      );
+  }
+);
+

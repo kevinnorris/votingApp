@@ -1,16 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Button} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
 
-import {setActivePoll, getPoll, vote} from '../../store/actions';
+import {getPoll, vote, deletePoll} from '../../store/actions';
 import AnswersDisplay from '../../components/answersDisplay';
 import Header from '../../components/header';
 
 import './poll.scss';
 
 const mapDispatchToProps = dispatch => ({
-  setPoll: payload => dispatch(setActivePoll(payload)),
   getPoll: payload => dispatch(getPoll(payload)),
   vote: payload => dispatch(vote(payload)),
+  deletePoll: payload => dispatch(deletePoll(payload)),
 });
 
 const mapStateToProps = state => ({
@@ -18,6 +20,7 @@ const mapStateToProps = state => ({
   activePoll: state.polls.activePoll,
   answers: state.polls.activePoll.answers,
   userId: state.auth.user ? state.auth.user._id : '',
+  token: state.auth.token,
 });
 
 class Poll extends React.Component {
@@ -25,9 +28,10 @@ class Poll extends React.Component {
     polls: React.PropTypes.array,
     activePoll: React.PropTypes.object,
     userId: React.PropTypes.string.isRequired,
-    setPoll: React.PropTypes.func.isRequired,
+    token: React.PropTypes.string,
     getPoll: React.PropTypes.func.isRequired,
     vote: React.PropTypes.func.isRequired,
+    deletePoll: React.PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -36,6 +40,10 @@ class Poll extends React.Component {
 
   handelVote = (answer) => {
     this.props.vote({answer, pollId: this.props.params.pollId, userId: this.props.userId});
+  }
+
+  handelDelete = () => {
+    this.props.deletePoll({pollId: this.props.params.pollId, token: this.props.token});
   }
 
   render() {
@@ -49,6 +57,12 @@ class Poll extends React.Component {
           {this.props.activePoll.hasVoted ?
             'Show D3 chart' :
             <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />
+          }
+          {this.props.activePoll.authorId === this.props.userId ?
+            <LinkContainer to="/myPolls">
+              <Button bsStyle="danger" onClick={this.handelDelete}>Delete Poll</Button>
+            </LinkContainer> :
+            ''
           }
         </div>
       </div>

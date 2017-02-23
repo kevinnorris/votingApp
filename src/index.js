@@ -34,7 +34,6 @@ app.use(express.static(path.resolve('./client/public')));
 const tokenVerify = (req, res, next) => {
   // check header or url params or post params for token
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
-  // console.log('token:', token, 'id: ', req.query.id);
 
   // decode token
   if (token) {
@@ -101,7 +100,7 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   newPoll.question = req.body.question;
   newPoll.votes = [];
   newPoll.voteCount = 0;
-  newPoll.answers = req.body.answers.split(',');
+  newPoll.answers = req.body.answers;
   newPoll.authorId = req.body.authorId;
   newPoll.authorName = req.body.authorName;
   newPoll.date = new Date();
@@ -114,8 +113,8 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   });
 });
 
-// All option added for debugging
 apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
+  // All option added for debugging, REMOVE
   if (req.body.pollId === 'all') {
     Poll.remove({}, (err) => {
       if (err) {
@@ -126,6 +125,7 @@ apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
   } else {
     Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
       if (err) {
+        console.log(err.message);
         return res.json({success: false, message: err.message});
       }
       return res.json({success: true, poll});
@@ -206,7 +206,6 @@ apiRoutes.get('/getPoll', (req, res) => {
 });
 
 apiRoutes.post('/vote', (req, res) => {
-  console.log(req.body);
   Poll.update(
     {_id: req.body.pollId},
     {

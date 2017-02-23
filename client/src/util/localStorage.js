@@ -28,6 +28,7 @@ export const updateUser = () => {
 };
 
 export const getUser = () => {
+  console.log('getting user');
   const storedUser = localStorage.getItem(userStorageString);
   if (storedUser) {
     return JSON.parse(storedUser);

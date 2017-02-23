@@ -26,3 +26,8 @@ export const ERROR_VOTE = 'ERROR_VOTE';
 // new poll
 export const SENDING_NEW_POLL = 'SENDING_NEW_POLL';
 export const ERROR_NEW_POLL = 'ERROR_NEW_POLL';
+
+// delete poll
+export const DELETING_POLL = 'DELETING_POLL';
+export const ERROR_DELETING_POLL = 'ERROR_DELETING_POLL';
+export const SUCCESS_DELETING_POLL = 'SUCCESS_DELETING_POLL';
