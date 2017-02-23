@@ -2,7 +2,7 @@ import 'whatwg-fetch';
 
 // our packages
 import * as ActionTypes from './actionTypes';
-import {saveUser, saveToken, updateUser, deleteInfo} from '../util/localStorage';
+import {saveUser, saveToken, deleteInfo} from '../util/localStorage';
 
 const apiUrl = 'http://localhost:8080/api/';
 

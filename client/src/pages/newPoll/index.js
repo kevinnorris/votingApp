@@ -21,6 +21,7 @@ const answer = (value, index, handelChange) => (
 
 const mapStateToProps = state => ({
   userId: state.auth.user._id,
+  userName: state.auth.user.name,
   token: state.auth.token,
 });
 
@@ -84,7 +85,8 @@ class NewPoll extends React.Component {
     this.props.submitNewPoll({
       question: this.state.question,
       answers,
-      author: this.props.userId,
+      authorId: this.props.userId,
+      authorName: this.props.userName,
       token: this.props.token,
     });
   }
@@ -144,6 +146,7 @@ class NewPoll extends React.Component {
 
 NewPoll.propTypes = {
   userId: React.PropTypes.string.isRequired,
+  userName: React.PropTypes.string.isRequired,
   token: React.PropTypes.string.isRequired,
   submitNewPoll: React.PropTypes.func.isRequired,
 };

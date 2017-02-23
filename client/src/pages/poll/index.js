@@ -45,7 +45,7 @@ class Poll extends React.Component {
         <Header />
         <div className="container">
           <h1 className="poll_center">{this.props.activePoll.question}</h1>
-          <p className="poll_center">By {this.props.activePoll.author}</p>
+          <p className="poll_center">By {this.props.activePoll.authorName}</p>
           {this.props.activePoll.hasVoted ?
             'Show D3 chart' :
             <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />

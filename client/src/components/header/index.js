@@ -32,6 +32,7 @@ const NavBar = ({name, logout}) => {
   }
   return (
     <ul className="header_topnav">
+      <li className="header_home"><Link to="/">Home</Link></li>
       <li><Link to="/login">Login</Link></li>
     </ul>
   );

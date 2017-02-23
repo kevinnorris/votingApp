@@ -87,7 +87,7 @@ app.route('/auth/github/callback')
 const apiRoutes = express.Router();
 
 // For debugging
-apiRoutes.get('/getUsers', tokenVerify, (req, res) => {
+apiRoutes.get('/getUsers', (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
       return res.json({success: false, message: err.message});
@@ -97,13 +97,13 @@ apiRoutes.get('/getUsers', tokenVerify, (req, res) => {
 });
 
 apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
-  console.log(req.body);
   const newPoll = new Poll();
   newPoll.question = req.body.question;
   newPoll.votes = [];
   newPoll.voteCount = 0;
-  newPoll.answers = req.body.answers;
-  newPoll.author = req.body.author;
+  newPoll.answers = req.body.answers.split(',');
+  newPoll.authorId = req.body.authorId;
+  newPoll.authorName = req.body.authorName;
   newPoll.date = new Date();
 
   newPoll.save((e) => {
@@ -114,13 +114,23 @@ apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   });
 });
 
+// All option added for debugging
 apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
-  Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
-    if (err) {
-      return res.json({success: false, message: err.message});
-    }
-    return res.json({success: true, poll});
-  });
+  if (req.body.pollId === 'all') {
+    Poll.remove({}, (err) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true});
+    });
+  } else {
+    Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
+      if (err) {
+        return res.json({success: false, message: err.message});
+      }
+      return res.json({success: true, poll});
+    });
+  }
 });
 
 apiRoutes.post('/addAnswer', tokenVerify, (req, res) => {
@@ -148,7 +158,7 @@ const pollLimit = 10;
 apiRoutes.get('/getPolls', (req, res) => {
   let filterBy = {};
   if (req.query.userId) {
-    filterBy = {author: req.query.userId};
+    filterBy = {authorId: req.query.userId};
   }
 
   // Get num of polls
@@ -238,6 +248,20 @@ apiRoutes.post('/removeVote', tokenVerify, (req, res) => {
       return res.json({success: true});
     },
   );
+});
+
+apiRoutes.get('/deleteAll', (req, res) => {
+  Poll.remove({}, (err) => {
+    if (err) {
+      return res.json({success: false, message: err.message});
+    }
+    User.remove({}, (e) => {
+      if (e) {
+        return res.json({success: false, message: e.message});
+      }
+      return res.json({success: true});
+    });
+  });
 });
 
 app.use('/api', apiRoutes);

@@ -8,7 +8,8 @@ const Poll = new mongoose.Schema({
   }],
   voteCount: Number,
   answers: Array,
-  author: String,
+  authorId: String,
+  authorName: String,
   date: Date,
 });
 

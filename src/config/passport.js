@@ -41,7 +41,7 @@ module.exports = (passport) => {
 
         // Get github info
         const newUser = new User();
-
+        newUser.name = profile.displayName;
         newUser.github.id = profile.id;
         newUser.github.username = profile.username;
         newUser.github.displayName = profile.displayName;
