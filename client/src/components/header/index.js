@@ -24,7 +24,7 @@ const NavBar = ({name, logout}) => {
     return (
       <ul className="header_topnav">
         <li className="header_home"><Link to="/">Home</Link></li>
-        <li><Link to="/" onClick={logout}>Logout</Link></li>
+        <li><a href="/" onClick={logout}>Logout</a></li>
         <li className="header_divider"> | </li>
         <li>Hello {name}</li>
       </ul>
