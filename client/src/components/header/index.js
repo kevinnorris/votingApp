@@ -50,7 +50,7 @@ class Header extends React.Component {
           <NavBar name={this.props.name} logout={this.handelLogout} />
         </div>
         <Jumbotron className="text-center header_jumbo">
-          <a id="header_title" href="/"><h1>Quick Poll</h1></a>
+          <Link to="/" id="header_title"><h1>Quick Poll</h1></Link>
           {this.props.name ?
             <p>
               <LinkContainer to="/newPoll" className="header_jumboLink">
