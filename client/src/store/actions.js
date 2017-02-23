@@ -58,17 +58,27 @@ const errorPolls = payload => ({
   payload,
 });
 
+/*
+  If userId is supplied we are making a call for myPolls and
+  thus don't want to change ascending, sortByVotes, or activePage
+*/
 export const getPolls = payload => (
   (dispatch) => {
+    let queryString = '?';
+
     dispatch(requestPolls());
 
-    let queryString = '?';
-    dispatch(setAscending({ascending: payload.ascending}));
     queryString += `ascending=${payload.ascending}`;
-    dispatch(setSort({sortByVotes: payload.sortByVotes}));
     queryString += `&sortByVotes=${payload.sortByVotes}`;
-    dispatch(setPage({activePage: payload.activePage}));
     queryString += `&activePage=${payload.activePage}`;
+
+    if (!payload.userId) {
+      dispatch(setAscending({ascending: payload.ascending}));
+      dispatch(setSort({sortByVotes: payload.sortByVotes}));
+      dispatch(setPage({activePage: payload.activePage}));
+    } else {
+      queryString += `&userId=${payload.userId}`;
+    }
 
     return fetch(`${apiUrl}getPolls${queryString}`)
       .then(response => response.json())
