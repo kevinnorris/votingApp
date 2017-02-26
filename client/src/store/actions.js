@@ -7,6 +7,8 @@ import {saveUser, saveToken, deleteInfo} from '../util/localStorage';
 const apiUrl = 'http://localhost:8080/api/';
 
 // Authentication actions
+
+// Required payload: {token: jwt, user: user object returned from auth}
 export const loginSuccess = (payload) => {
   saveUser(payload.user);
   saveToken(payload.token);
@@ -23,36 +25,41 @@ export const logoutUser = () => {
 
 // Poll actions
 
+// Required payload: {poll: poll object returned from server, userId: users Id, not included if not logged in}
 export const setActivePoll = payload => ({
   type: ActionTypes.SET_ACTIVE_POLL,
   payload,
 });
 
+// Required payload: {ascending: bool}
 export const setAscending = payload => ({
   type: ActionTypes.SET_ASCENDING,
   payload,
 });
 
+// Required payload: {activePage: Number}
 const setPage = payload => ({
   type: ActionTypes.SET_PAGE,
   payload,
 });
 
+// Required payload: {sortByVotes: bool}
 export const setSort = payload => ({
   type: ActionTypes.SET_SORT,
   payload,
 });
 
-const requestPolls = payload => ({
+const requestPolls = () => ({
   type: ActionTypes.REQUEST_POLLS,
-  payload,
 });
 
+// Required payload: {polls: array of polls from server, numOfPages: Number}
 const receivePolls = payload => ({
   type: ActionTypes.RECIEVED_POLLS,
   payload,
 });
 
+// Required payload: {error: String, location: where error occured}
 const errorPolls = payload => ({
   type: ActionTypes.ERROR_POLLS,
   payload,
@@ -62,6 +69,7 @@ const errorPolls = payload => ({
   If userId is supplied we are making a call for myPolls and
   thus don't want to change ascending, sortByVotes, or activePage
 */
+// Required payload: {ascending: bool, sortByVotes: bool, activePage: Number, userId: String, this is optional}
 export const getPolls = payload => (
   (dispatch) => {
     let queryString = '?';
@@ -94,11 +102,11 @@ export const getPolls = payload => (
   }
 );
 
-const requestPoll = payload => ({
+const requestPoll = () => ({
   type: ActionTypes.REQUEST_POLL,
-  payload,
 });
 
+// Required payload: {error: String, location: where error occured}
 const errorPoll = payload => ({
   type: ActionTypes.ERROR_POLLS,
   payload,
@@ -126,7 +134,7 @@ const sendVote = () => ({
   type: ActionTypes.SENDING_VOTE,
 });
 
-
+// Required payload: {error: String, location: where error occured}
 const errorVote = payload => ({
   type: ActionTypes.ERROR_VOTE,
   payload,
@@ -158,11 +166,13 @@ const sendingNewPoll = () => ({
   type: ActionTypes.SENDING_NEW_POLL,
 });
 
+// Required payload: {error: String, location: where error occured}
 const errorNewPoll = payload => ({
   type: ActionTypes.SENDING_NEW_POLL,
   payload,
 });
 
+// Required payload: {question: String, answers: array of String, authorId: String, authorName: String, token: String}
 export const submitNewPoll = payload => (
   (dispatch) => {
     dispatch(sendingNewPoll());
@@ -187,6 +197,7 @@ const deletingPoll = () => ({
   type: ActionTypes.DELETING_POLL,
 });
 
+// Required payload: {error: String, location: where error occured}
 const errorDeletingPoll = payload => ({
   type: ActionTypes.ERROR_DELETING_POLL,
   payload,
@@ -196,6 +207,7 @@ const successDeletingPoll = () => ({
   type: ActionTypes.SUCCESS_DELETING_POLL,
 });
 
+// Required payload: {pollId: String, token: String}
 export const deletePoll = payload => (
   (dispatch) => {
     dispatch(deletingPoll());
@@ -222,14 +234,15 @@ const addingAnswer = () => ({
   type: ActionTypes.ADDING_ANSWER,
 });
 
+// Required payload: {error: String, location: where error occured}
 const errorAddingAnswer = payload => ({
   type: ActionTypes.ERROR_ADDING_ANSWER,
   payload,
 });
 
+// Required payload: {pollId: String, answer: String, token: String}
 export const addAnswer = payload => (
   (dispatch) => {
-    console.log('addAnswer called with payload: ', payload);
     dispatch(addingAnswer());
 
     return fetch(`${apiUrl}addAnswer`, {
