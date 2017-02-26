@@ -218,3 +218,34 @@ export const deletePoll = payload => (
   }
 );
 
+const addingAnswer = () => ({
+  type: ActionTypes.ADDING_ANSWER,
+});
+
+const errorAddingAnswer = payload => ({
+  type: ActionTypes.ERROR_ADDING_ANSWER,
+  payload,
+});
+
+export const addAnswer = payload => (
+  (dispatch) => {
+    console.log('addAnswer called with payload: ', payload);
+    dispatch(addingAnswer());
+
+    return fetch(`${apiUrl}addAnswer`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json())
+      .then((json) => {
+        if (json.success) {
+          dispatch(getPoll({pollId: payload.pollId}));
+        } else {
+          dispatch(errorAddingAnswer({error: json.error, location: 'json'}));
+        }
+      }).catch(err =>
+        dispatch(errorAddingAnswer({error: err.message, location: 'fetch'})),
+      );
+  }
+);
