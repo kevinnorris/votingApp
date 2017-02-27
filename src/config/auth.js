@@ -1,3 +1,4 @@
+// Google through google developer console
 module.exports = {
   githubAuth: {
     clientID: process.env.GITHUB_KEY,

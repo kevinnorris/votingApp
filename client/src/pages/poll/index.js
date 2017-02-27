@@ -7,6 +7,7 @@ import {Doughnut} from 'react-chartjs-2';
 import {getPoll, vote, deletePoll, addAnswer} from '../../store/actions';
 import AnswersDisplay from '../../components/answersDisplay';
 import Header from '../../components/header';
+import {kellyColors} from '../../util';
 
 import './poll.scss';
 
@@ -25,8 +26,6 @@ const mapStateToProps = state => ({
   token: state.auth.token,
   data: state.polls.activePoll.data,
 });
-
-const mapColors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6'];
 
 class Poll extends React.Component {
   static propTypes = {
@@ -86,8 +85,8 @@ class Poll extends React.Component {
       labels: this.props.answers,
       datasets: [{
         data: this.props.data,
-        backgroundColor: mapColors,
-        hoverBackgroundColor: mapColors,
+        backgroundColor: kellyColors,
+        hoverBackgroundColor: kellyColors,
       }],
     };
     return (
