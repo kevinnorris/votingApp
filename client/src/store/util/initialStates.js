@@ -4,6 +4,7 @@ import {getUser, getToken} from '../../util/localStorage';
 localStorage.removeItem('full-test-user');*/
 
 const user = getUser();
+console.log('user: ', user);
 
 export const initialAuthState = {
   token: getToken(),
@@ -23,6 +24,7 @@ export const initialPollsState = {
     authorName: '',
     date: null,
     hasVoted: false,
+    data: [],
   },
   activePage: 1,
   numOfPages: 1,

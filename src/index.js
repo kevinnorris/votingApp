@@ -95,6 +95,11 @@ apiRoutes.get('/getUsers', (req, res) => {
   });
 });
 
+// To identify non authenticated users
+apiRoutes.get('/getuser', (req, res) => {
+  res.send({ip: req.ip, userAgent: req.get('user-agent')});
+});
+
 apiRoutes.post('/savePoll', tokenVerify, (req, res) => {
   const newPoll = new Poll();
   newPoll.question = req.body.question;
@@ -125,7 +130,6 @@ apiRoutes.post('/deletePoll', tokenVerify, (req, res) => {
   } else {
     Poll.findByIdAndRemove(req.body.pollId, (err, poll) => {
       if (err) {
-        console.log(err.message);
         return res.json({success: false, message: err.message});
       }
       return res.json({success: true, poll});
@@ -228,7 +232,6 @@ apiRoutes.post('/vote', (req, res) => {
 
 // Test that both removes vote and decreases voteCount
 apiRoutes.post('/removeVote', tokenVerify, (req, res) => {
-  console.log(req.body);
   Poll.update(
     {_id: req.body.pollId},
     {

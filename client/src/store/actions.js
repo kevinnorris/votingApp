@@ -6,7 +6,22 @@ import {saveUser, saveToken, deleteInfo} from '../util/localStorage';
 
 const apiUrl = 'http://localhost:8080/api/';
 
-// Authentication actions
+const setUserId = payload => ({
+  type: ActionTypes.SET_USER,
+  payload,
+});
+
+export const getAnonUser = () => (
+  (dispatch) => {
+    return fetch(`${apiUrl}getUser`)
+      .then(response => response.json())
+      .then((json) => {
+        dispatch(setUserId({_id: `${json.ip},${json.userAgent.substring(0, 17)}`}));
+      }).catch((err) => {
+        console.log(err.message);
+      });
+  }
+);
 
 // Required payload: {token: jwt, user: user object returned from auth}
 export const loginSuccess = (payload) => {

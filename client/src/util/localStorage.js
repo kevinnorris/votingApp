@@ -1,7 +1,7 @@
 import store from '../store';
 
-const userStorageString = 'FCC-Dynamic-Web-Boilerplate-user';
-const tokenStorageString = 'FCC-Dynamic-Web-Boilerplate-token';
+const userStorageString = 'FCC-voting-app-kn-user';
+const tokenStorageString = 'FCC-voting-app-kn-token';
 
 export const saveUser = (user) => {
   localStorage.setItem(userStorageString, JSON.stringify(user));
@@ -28,12 +28,11 @@ export const updateUser = () => {
 };
 
 export const getUser = () => {
-  console.log('getting user');
   const storedUser = localStorage.getItem(userStorageString);
   if (storedUser) {
     return JSON.parse(storedUser);
   }
-  return null;
+  return {_id: null};
 };
 
 export const getToken = () => (

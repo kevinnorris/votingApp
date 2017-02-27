@@ -4,6 +4,11 @@ import {initialAuthState} from '../util/initialStates';
 
 export const auth = (state = initialAuthState, action) => {
   switch (action.type) {
+    case ActionTypes.SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
     case ActionTypes.UPDATE_TOKEN:
       return {
         ...state,

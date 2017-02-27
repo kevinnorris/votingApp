@@ -6,17 +6,19 @@ import {LinkContainer} from 'react-router-bootstrap';
 import {Jumbotron, Button} from 'react-bootstrap';
 
 // our packages
-import {logoutUser} from '../../store/actions';
+import {logoutUser, getAnonUser} from '../../store/actions';
 
 // style
 import './header.scss';
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logoutUser()),
+  getAnonUser: () => dispatch(getAnonUser()),
 });
 
 const mapStateToProps = state => ({
-  name: state.auth.user ? state.auth.user.github.displayName : '',
+  userId: state.auth.user._id,
+  name: state.auth.user.name ? state.auth.user.github.displayName : '',
 });
 
 const NavBar = ({name, logout}) => {
@@ -39,6 +41,12 @@ const NavBar = ({name, logout}) => {
 };
 
 class Header extends React.Component {
+  componentWillMount() {
+    if (this.props.userId === null) {
+      this.props.getAnonUser();
+    }
+  }
+
   handelLogout = () => {
     this.props.logout();
   }
@@ -70,7 +78,9 @@ class Header extends React.Component {
 
 Header.propTypes = {
   name: React.PropTypes.string.isRequired,
+  userId: React.PropTypes.string,
   logout: React.PropTypes.func.isRequired,
+  getAnonUser: React.PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

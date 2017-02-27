@@ -2,8 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Button, Modal, FormControl} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import {Doughnut} from 'react-chartjs-2';
 
-import {getPoll, vote, deletePoll, addAnswer, openModal, closeModal} from '../../store/actions';
+import {getPoll, vote, deletePoll, addAnswer} from '../../store/actions';
 import AnswersDisplay from '../../components/answersDisplay';
 import Header from '../../components/header';
 
@@ -22,14 +23,19 @@ const mapStateToProps = state => ({
   answers: state.polls.activePoll.answers,
   userId: state.auth.user ? state.auth.user._id : '',
   token: state.auth.token,
+  data: state.polls.activePoll.data,
 });
+
+const mapColors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6'];
 
 class Poll extends React.Component {
   static propTypes = {
     polls: React.PropTypes.array,
     activePoll: React.PropTypes.object,
-    userId: React.PropTypes.string.isRequired,
+    answers: React.PropTypes.array,
+    userId: React.PropTypes.string,
     token: React.PropTypes.string,
+    data: React.PropTypes.array,
     getPoll: React.PropTypes.func.isRequired,
     vote: React.PropTypes.func.isRequired,
     deletePoll: React.PropTypes.func.isRequired,
@@ -76,16 +82,23 @@ class Poll extends React.Component {
   }
 
   render() {
-    // parse this.props.activePoll.votes into data usable by d3 chart
+    const data = {
+      labels: this.props.answers,
+      datasets: [{
+        data: this.props.data,
+        backgroundColor: mapColors,
+        hoverBackgroundColor: mapColors,
+      }],
+    };
     return (
       <div>
         <Header />
         <div className="container">
           <h1 className="poll_center">{this.props.activePoll.question}</h1>
           <p className="poll_center">By {this.props.activePoll.authorName}</p>
-          {this.props.activePoll.hasVoted ?
-            'Show D3 chart' :
-            <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />
+          {!this.props.activePoll.hasVoted ?
+            <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} /> :
+            <Doughnut data={data} />
           }
           {this.props.token ?
             <Modal show={this.state.showModal} onHide={this.close} className="text-center">
@@ -110,14 +123,17 @@ class Poll extends React.Component {
             </Modal> :
             ''
           }
-          {!this.props.activePoll.hasVoted && this.props.token ?
+          {this.props.token ?
             <Button bsStyle="warning" onClick={this.open}>Add answer</Button> :
             ''
           }
           {this.props.activePoll.authorId === this.props.userId ?
-            <LinkContainer to="/myPolls">
-              <Button bsStyle="danger" onClick={this.handelDelete}>Delete Poll</Button>
-            </LinkContainer> :
+            <div>
+              <br />
+              <LinkContainer to="/myPolls">
+                <Button bsStyle="danger" onClick={this.handelDelete}>Delete Poll</Button>
+              </LinkContainer>
+            </div> :
             ''
           }
         </div>

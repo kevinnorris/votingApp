@@ -2,6 +2,20 @@ import * as ActionTypes from '../actionTypes';
 
 import {initialPollsState} from '../util/initialStates';
 
+const calcData = (votes, answers) => {
+  // Initialize data array to size of answers with value 0 for all elements
+  const data = new Array(answers.length);
+  for (let i = 0; i < answers.length; i++) {
+    data[i] = 0;
+  }
+  // sum num of times each answer has been voted fore
+  for (let j = 0; j < votes.length; j++) {
+    data[answers.indexOf(votes[j].answer)] += 1;
+  }
+  
+  return data;
+};
+
 export const polls = (state = initialPollsState, action) => {
   switch (action.type) {
     case ActionTypes.LOGOUT:
@@ -38,6 +52,7 @@ export const polls = (state = initialPollsState, action) => {
           authorName: action.payload.poll.authorName,
           date: action.payload.poll.date,
           hasVoted: action.payload.poll.votes.find(e => e.user === action.payload.userId) || false,
+          data: calcData(action.payload.poll.votes, action.payload.poll.answers),
         },
       };
     case ActionTypes.SET_ASCENDING:

@@ -2,6 +2,7 @@
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGOUT = 'LOGOUT';
+export const SET_USER = 'SET_USER';
 // poll actions
 export const REQUEST_POLLS = 'REQUEST_POLLS';
 export const RECIEVED_POLLS = 'RECIEVED_POLLS';
