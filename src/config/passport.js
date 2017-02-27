@@ -1,5 +1,6 @@
 // npm packages
 import {Strategy as GitHubStrategy} from 'passport-github2';
+import {Strategy as GoogleStrategy} from 'passport-google-oauth20';
 
 // our packages
 import User from '../models/users';
@@ -14,11 +15,6 @@ module.exports = (passport) => {
   passport.deserializeUser((obj, done) => {
     done(null, obj);
   });
-
-  /* User.remove({}, (err, docs) =>{
-    if (err) throw err;
-    console.log(docs);
-  });*/
 
   // use GitHubStrategy
   passport.use(new GitHubStrategy({
@@ -39,15 +35,52 @@ module.exports = (passport) => {
           return done(null, user);
         }
 
-        // Get github info
+        // Create new user
         const newUser = new User();
         newUser.name = profile.displayName;
         newUser.github.id = profile.id;
         newUser.github.username = profile.username;
         newUser.github.displayName = profile.displayName;
         newUser.github.publicRepos = profile._json.public_repos;
-        newUser.nbrClicks.clicks = 0;
-        // Save github info to db
+        newUser.google = null;
+
+        // Save user to db
+        newUser.save((e) => {
+          if (e) {
+            throw e;
+          }
+          return done(null, newUser);
+        });
+      });
+    });
+  }));
+
+  // use GoogleStrategy
+  passport.use(new GoogleStrategy({
+    clientID: configAuth.googleAuth.clientID,
+    clientSecret: configAuth.googleAuth.clientSecret,
+    callbackURL: configAuth.googleAuth.callbackURL,
+  },
+  (token, refreshToken, profile, done) => {
+    process.nextTick(() => {
+      // Find user with matching google id
+      User.findOne({'google.id': profile.id}, (err, user) => {
+        if (err) {
+          return done(err);
+        }
+        // If user exists in db
+        if (user) {
+          return done(null, user);
+        }
+
+        // Create new user
+        const newUser = new User();
+        newUser.name = profile.displayName;
+        newUser.github = null;
+        newUser.google.id = profile.id;
+        newUser.google.displayName = profile.displayName;
+
+        // Save user to db
         newUser.save((e) => {
           if (e) {
             throw e;

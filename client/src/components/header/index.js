@@ -18,11 +18,11 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   userId: state.auth.user._id,
-  name: state.auth.user.name ? state.auth.user.github.displayName : '',
+  name: state.auth.user.name,
 });
 
 const NavBar = ({name, logout}) => {
-  if (name) {
+  if (name !== 'Anonymous') {
     return (
       <ul className="header_topnav">
         <li className="header_home"><Link to="/">Home</Link></li>
@@ -41,8 +41,9 @@ const NavBar = ({name, logout}) => {
 };
 
 class Header extends React.Component {
+
   componentWillMount() {
-    if (this.props.userId === null) {
+    if (this.props.userId === '') {
       this.props.getAnonUser();
     }
   }
@@ -59,7 +60,7 @@ class Header extends React.Component {
         </div>
         <Jumbotron className="text-center header_jumbo">
           <Link to="/" id="header_title"><h1>Quick Poll</h1></Link>
-          {this.props.name ?
+          {this.props.name !== 'Anonymous' ?
             <p>
               <LinkContainer to="/newPoll" className="header_jumboLink">
                 <Button bsStyle="success">New Poll</Button>
@@ -78,7 +79,7 @@ class Header extends React.Component {
 
 Header.propTypes = {
   name: React.PropTypes.string.isRequired,
-  userId: React.PropTypes.string,
+  userId: React.PropTypes.string.isRequired,
   logout: React.PropTypes.func.isRequired,
   getAnonUser: React.PropTypes.func.isRequired,
 };

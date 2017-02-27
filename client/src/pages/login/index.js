@@ -54,6 +54,22 @@ class Login extends React.Component {
     });
   }
 
+  handelGoogleLogin = () => {
+    popupTools.popup('http://localhost:8080/auth/google', 'Google Connect', {}, (err, response) => {
+      if (err) {
+        alert(err.message);
+      } else {
+        if (response.success) {
+          this.props.loginSuccess({token: response.token, user: response.user});
+          // redirect to home
+          this.props.changeRoute('/');
+        } else {
+          alert('Error logging into google.');
+        }
+      }
+    });
+  }
+
   render() {
     return (
       <div className="login">
@@ -61,6 +77,9 @@ class Login extends React.Component {
         <Button bsStyle="info" className="socialButton" onClick={this.handelGithubLogin}>
           <img className="logo" src="github_32px.png" alt="github logo" />
           <p>Login With Github</p>
+        </Button>
+        <Button bsStyle="danger" className="socialButton" onClick={this.handelGoogleLogin}>
+          Login with Google
         </Button>
       </div>
     );

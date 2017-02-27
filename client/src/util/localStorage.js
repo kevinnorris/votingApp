@@ -32,7 +32,7 @@ export const getUser = () => {
   if (storedUser) {
     return JSON.parse(storedUser);
   }
-  return {_id: null};
+  return {_id: '', name: 'Anonymous'};
 };
 
 export const getToken = () => (

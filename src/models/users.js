@@ -8,6 +8,10 @@ const User = new mongoose.Schema({
     username: String,
     publicRepos: Number,
   },
+  google: {
+    id: String,
+    displayName: String,
+  },
   nbrClicks: {
     clicks: Number,
   },

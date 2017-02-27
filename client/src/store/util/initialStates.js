@@ -1,10 +1,9 @@
 import {getUser, getToken} from '../../util/localStorage';
 // for debugging
-/* localStorage.removeItem('full-test-token');
-localStorage.removeItem('full-test-user');*/
+/*localStorage.removeItem('FCC-voting-app-kn-user');
+localStorage.removeItem('FCC-voting-app-kn-token');*/
 
 const user = getUser();
-console.log('user: ', user);
 
 export const initialAuthState = {
   token: getToken(),

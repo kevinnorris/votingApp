@@ -16,7 +16,7 @@ export const getAnonUser = () => (
     return fetch(`${apiUrl}getUser`)
       .then(response => response.json())
       .then((json) => {
-        dispatch(setUserId({_id: `${json.ip},${json.userAgent.substring(0, 17)}`}));
+        dispatch(setUserId({_id: `${json.ip},${json.userAgent.substring(0, 17)}`, name: 'Anonymous'}));
       }).catch((err) => {
         console.log(err.message);
       });

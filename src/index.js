@@ -51,6 +51,16 @@ const tokenVerify = (req, res, next) => {
   }
 };
 
+const createToken = (user) => (
+  jwt.sign({
+    sub: user._id,
+    iss: process.env.APP_URL,
+    iat: (new Date().getTime()),
+  }, process.env.JWT_SECRET, {
+    expiresIn: '4h',
+  })
+);
+
 /*
   Github authentication
   ------------------------
@@ -64,13 +74,7 @@ app.route('/auth/github/callback')
       return res.json({success: false, message: 'Github authentication error.'});
     }
     // Create and send json web token
-    const token = jwt.sign({
-      sub: req.user.github.id,
-      iss: process.env.APP_URL,
-      iat: (new Date().getTime()),
-    }, process.env.JWT_SECRET, {
-      expiresIn: '4h',
-    });
+    const token = createToken(req.user);
 
     return res.end(popupTools.popupResponse({
       success: true,
@@ -78,6 +82,29 @@ app.route('/auth/github/callback')
       user: req.user,
     }));
   });
+
+/*
+  Google authentication
+  ------------------------
+*/
+app.route('/auth/google')
+  .get(passport.authenticate('google', {scope: ['profile']}));
+
+app.route('/auth/google/callback')
+  .get(passport.authenticate('google'), (req, res) => {
+    if (!req.user) {
+      return res.json({success: false, message: 'Google authentication error.'});
+    }
+
+    const token = createToken(req.user);
+
+    return res.end(popupTools.popupResponse({
+      success: true,
+      token,
+      user: req.user,
+    }));
+  });
+
 
 /*
   API routes
