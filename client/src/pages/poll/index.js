@@ -73,7 +73,12 @@ class Poll extends React.Component {
 
   handelSubmit = () => {
     if (this.state.newAnswer !== '') {
-      this.props.addAnswer({pollId: this.props.params.pollId, answer: this.state.newAnswer, token: this.props.token});
+      this.props.addAnswer({
+        pollId: this.props.params.pollId,
+        answer: this.state.newAnswer,
+        token: this.props.token,
+        userId: this.props.userId,
+      });
       this.close();
     } else {
       this.setState({warningMessage: 'Fill in the answer input to submit an answer'});

@@ -127,6 +127,7 @@ const errorPoll = payload => ({
   payload,
 });
 
+// Required payload: {pollId: String, userId: String}
 export const getPoll = payload => (
   (dispatch) => {
     dispatch(requestPoll());
@@ -255,11 +256,10 @@ const errorAddingAnswer = payload => ({
   payload,
 });
 
-// Required payload: {pollId: String, answer: String, token: String}
+// Required payload: {pollId: String, answer: String, token: String, userId: String}
 export const addAnswer = payload => (
   (dispatch) => {
     dispatch(addingAnswer());
-
     return fetch(`${apiUrl}addAnswer`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -268,7 +268,7 @@ export const addAnswer = payload => (
       .then(response => response.json())
       .then((json) => {
         if (json.success) {
-          dispatch(getPoll({pollId: payload.pollId}));
+          dispatch(getPoll({pollId: payload.pollId, userId: payload.userId}));
         } else {
           dispatch(errorAddingAnswer({error: json.error, location: 'json'}));
         }
