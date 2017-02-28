@@ -4,10 +4,10 @@ import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import popupTools from 'popup-tools';
 import {Button} from 'react-bootstrap';
-// import {Link} from 'react-router';
 
 // our packages
 import {loginSuccess} from '../../store/actions';
+import Header from '../../components/header';
 
 import './login.scss';
 
@@ -72,15 +72,16 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="login">
-        <h1>FCC Dynamic Web Boilerplate</h1>
-        <Button bsStyle="info" className="socialButton" onClick={this.handelGithubLogin}>
-          <img className="logo" src="github_32px.png" alt="github logo" />
-          <p>Login With Github</p>
-        </Button>
-        <Button bsStyle="danger" className="socialButton" onClick={this.handelGoogleLogin}>
-          Login with Google
-        </Button>
+      <div>
+        <Header />
+        <div className="container login">
+          <Button bsStyle="info" className="socialButton" onClick={this.handelGithubLogin}>
+            <img className="logo" src="github_32px.png" alt="github logo" />
+            <p>Sign in With Github</p>
+          </Button>
+          <br />
+          <button className="login_googleSignInBtn" onClick={this.handelGoogleLogin} />
+        </div>
       </div>
     );
   }

@@ -12,3 +12,21 @@ Button.socialButton{
     padding-left: 6px;
   }
 }
+
+.login_googleSignInBtn{
+  background-image: url('./btn_google_signin_dark_normal_web.png');
+  background-repeat: no-repeat;
+  background-size: 191px 46px;
+  height: 46px;
+  width: 191px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 5px;
+  :focus{
+    background-image: url('./btn_google_signin_dark_focus_web.png');
+  }
+  :active{
+    background-image: url('./btn_google_signin_dark_pressed_web.png');
+  }
+}

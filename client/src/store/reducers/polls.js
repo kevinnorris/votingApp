@@ -12,7 +12,7 @@ const calcData = (votes, answers) => {
   for (let j = 0; j < votes.length; j++) {
     data[answers.indexOf(votes[j].answer)] += 1;
   }
-  
+
   return data;
 };
 
