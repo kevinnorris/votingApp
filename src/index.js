@@ -113,14 +113,14 @@ app.route('/auth/google/callback')
 const apiRoutes = express.Router();
 
 // For debugging
-apiRoutes.get('/getUsers', (req, res) => {
+/* apiRoutes.get('/getUsers', (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
       return res.json({success: false, message: err.message});
     }
     return res.json({success: true, users});
   });
-});
+});*/
 
 // To identify non authenticated users
 apiRoutes.get('/getuser', (req, res) => {
@@ -279,7 +279,8 @@ apiRoutes.post('/removeVote', tokenVerify, (req, res) => {
   );
 });
 
-apiRoutes.get('/deleteAll', (req, res) => {
+// For debugging
+/* apiRoutes.get('/deleteAll', (req, res) => {
   Poll.remove({}, (err) => {
     if (err) {
       return res.json({success: false, message: err.message});
@@ -291,7 +292,7 @@ apiRoutes.get('/deleteAll', (req, res) => {
       return res.json({success: true});
     });
   });
-});
+});*/
 
 app.use('/api', apiRoutes);
 
