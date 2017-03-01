@@ -39,7 +39,8 @@ class Login extends React.Component {
   }
 
   handelGithubLogin = () => {
-    popupTools.popup('http://localhost:8080/auth/github', 'Github Connect', {}, (err, response) => {
+    // FIX THIS remove hardcoded app url
+    popupTools.popup('https://qckvote.herokuapp.com/auth/github', 'Github Connect', {}, (err, response) => {
       if (err) {
         alert(err.message);
       } else {
@@ -55,7 +56,8 @@ class Login extends React.Component {
   }
 
   handelGoogleLogin = () => {
-    popupTools.popup('http://localhost:8080/auth/google', 'Google Connect', {}, (err, response) => {
+    // FIX THIS remove hardcoded app url
+    popupTools.popup('https://qckvote.herokuapp.com//google', 'Google Connect', {}, (err, response) => {
       if (err) {
         alert(err.message);
       } else {
