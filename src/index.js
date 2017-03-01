@@ -5,6 +5,7 @@ import passport from 'passport';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 import popupTools from 'popup-tools';
+import compression from 'compression';
 
 import User from './models/users';
 import Poll from './models/polls';
@@ -23,6 +24,9 @@ app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-w
 
 // add passport.js
 app.use(passport.initialize());
+
+// Set compressiong for files
+app.use(compression());
 
 // set static files path
 app.use(express.static(path.resolve('./client/public')));
@@ -300,6 +304,7 @@ app.use('/api', apiRoutes);
   Generic routes
   ------------------------
 */
+
 app.get('*', (req, res) => {
   res.status(200).sendFile(path.resolve('./client/public/index.html'));
 });
