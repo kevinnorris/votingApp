@@ -5,11 +5,17 @@
 }
 
 Button.socialButton{
-  display: flex;
-  align-items: center;
+  width: 191px;
+  height: 46px;
+  margin-bottom: 10px;
   p{
     margin: 0;
-    padding-left: 6px;
+    padding: 7px 0 0 6px;
+    font-weight: bold;
+    font-size: 0.95em;
+  }
+  .logo {
+    float: left;
   }
 }
 
