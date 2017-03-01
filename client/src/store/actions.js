@@ -4,7 +4,8 @@ import 'whatwg-fetch';
 import * as ActionTypes from './actionTypes';
 import {saveUser, saveToken, deleteInfo} from '../util/localStorage';
 
-const apiUrl = 'http://localhost:8080/api/';
+// FIX THIS so its not hard coded
+const apiUrl = 'https://qckvote.herokuapp.com/';
 
 const setUserId = payload => ({
   type: ActionTypes.SET_USER,
