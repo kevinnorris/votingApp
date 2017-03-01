@@ -57,7 +57,7 @@ class Login extends React.Component {
 
   handelGoogleLogin = () => {
     // FIX THIS remove hardcoded app url
-    popupTools.popup('https://qckvote.herokuapp.com//google', 'Google Connect', {}, (err, response) => {
+    popupTools.popup('https://qckvote.herokuapp.com/google', 'Google Connect', {}, (err, response) => {
       if (err) {
         alert(err.message);
       } else {
