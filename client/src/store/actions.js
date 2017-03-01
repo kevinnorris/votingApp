@@ -5,7 +5,7 @@ import * as ActionTypes from './actionTypes';
 import {saveUser, saveToken, deleteInfo} from '../util/localStorage';
 
 // FIX THIS so its not hard coded
-const apiUrl = 'https://qckvote.herokuapp.com/';
+const apiUrl = 'https://qckvote.herokuapp.com/api/';
 
 const setUserId = payload => ({
   type: ActionTypes.SET_USER,
