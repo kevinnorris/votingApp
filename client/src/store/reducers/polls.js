@@ -27,6 +27,7 @@ export const polls = (state = initialPollsState, action) => {
         error: null,
         activePoll: {
           ...state.activePoll,
+          question: '',
           hasVoted: null,
         },
       };

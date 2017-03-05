@@ -6,14 +6,14 @@ import {routerMiddleware} from 'react-router-redux';
 import rootReducer from './rootReducer';
 
 const middleware = routerMiddleware(browserHistory);
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // Enables redux extensions to view state
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(
+  //composeEnhancers(
     applyMiddleware(middleware),
     applyMiddleware(thunk),
-  ),
+  //),
 );
 
 export default store;
