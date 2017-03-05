@@ -71,6 +71,7 @@ class Header extends React.Component {
             </p> :
             ''
           }
+          <p className="header_githubLink">Github repo: <a target="_blank" href="https://github.com/kevinnorris/votingApp">kevinnorris/votingApp</a></p>
         </Jumbotron>
       </div>
     );
