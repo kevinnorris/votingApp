@@ -25,11 +25,7 @@ export const polls = (state = initialPollsState, action) => {
         ...state,
         isFetching: true,
         error: null,
-        activePoll: {
-          ...state.activePoll,
-          question: '',
-          hasVoted: null,
-        },
+        activePoll: initialPollsState.activePoll,
       };
     case ActionTypes.ERROR_POLLS:
       return {
