@@ -94,16 +94,21 @@ class Poll extends React.Component {
         hoverBackgroundColor: kellyColors,
       }],
     };
+    let display;
+    if (this.props.activePoll.hasVoted === null) {
+      display = '';
+    } else if (this.props.activePoll.hasVoted === false) {
+      display = <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} />;
+    } else {
+      display = <Doughnut data={data} />;
+    }
     return (
       <div>
         <Header />
         <div className="container">
           <h1 className="poll_center">{this.props.activePoll.question}</h1>
           <p className="poll_center">By {this.props.activePoll.authorName}</p>
-          {!this.props.activePoll.hasVoted ?
-            <AnswersDisplay answers={this.props.activePoll.answers} vote={this.handelVote} /> :
-            <Doughnut data={data} />
-          }
+          {display}
           {this.props.token ?
             <Modal show={this.state.showModal} onHide={this.close} className="text-center">
               <Modal.Header closeButton>
