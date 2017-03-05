@@ -2,6 +2,8 @@
 
 For freeCodeCamp’s first dynamic web application projects.
 
+Built using ES6, [React](https://facebook.github.io/react/) [Redux](http://redux.js.org/) front end, [Chart.js](http://www.chartjs.org/) for charts and [Express](https://expressjs.com/) for back end.
+
 ## Installation
 
 ### .env file
