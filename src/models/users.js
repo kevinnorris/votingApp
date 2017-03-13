@@ -12,9 +12,6 @@ const User = new mongoose.Schema({
     id: String,
     displayName: String,
   },
-  nbrClicks: {
-    clicks: Number,
-  },
 });
 
 module.exports = mongoose.model('User', User);
