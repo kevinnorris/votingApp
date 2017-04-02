@@ -2,6 +2,8 @@
 
 For freeCodeCamp’s first dynamic web application projects.
 
+**[Link to app](https://qckvote.herokuapp.com/)**
+
 Built using ES6, [React](https://facebook.github.io/react/) [Redux](http://redux.js.org/) front end, [Chart.js](http://www.chartjs.org/) for charts, [Express](https://expressjs.com/) for back end and [mongodb](https://www.mongodb.com/) through [mongoose](http://mongoosejs.com/) for data storage.
 
 ## Installation
